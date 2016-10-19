@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'welcome/signup'
+
+  get 'welcome/login'
+
+  get 'welcome/index'
+
   get 'welcome/index'
   root 'welcome#index'
 
