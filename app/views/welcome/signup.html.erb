@@ -1,5 +1,5 @@
 <h1>Welcome signup below</h1>
-<%= form_for :user, class: "signupForm" do |f| %>
+<%= form_for :user,:controller => 'welcome', url: {action: "signup"}, class: "signupForm" do |f| %>
 
   <%= f.label :first_name %>
   <%= f.text_field :first_name, class: "shortInput" %> <br />
@@ -17,5 +17,5 @@
   <%= f.password_field :password_confirmation, class: "shortInput" %> <br />
 
   <%= f.submit "Create account", class: "button createAccount" %>
-
+<%= "Message from controller : #{@exec}" %>
 <% end %>

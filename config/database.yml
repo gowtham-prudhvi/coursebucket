@@ -27,6 +27,9 @@ default: &default
 development:
   <<: *default
   database: myapp_development
+  host: localhost
+  username: pguser
+  password: pguser_password
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -61,6 +64,9 @@ development:
 test:
   <<: *default
   database: myapp_test
+  host: localhost
+  username: pguser
+  password: pguser_password
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is

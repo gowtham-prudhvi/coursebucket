@@ -1,5 +1,5 @@
 <h1>Welcome Enter your details below</h1>
-<%= form_for :user, class: "signupForm" do |f| %>
+<%= form_for :user,:controller => 'welcome', url: {action: "login"},class: "signupForm" do |f| %>
   <%= f.label :email, "Email Address" %>
   <%= f.text_field :email, class: "shortInput" %> <br />
 
@@ -7,5 +7,5 @@
   <%= f.password_field :password, class: "shortInput" %> <br />
 
   <%= f.submit "Login", class: "button login" %>
-
+<%= "Message from controller : #{@posts}" %>
 <% end %>
