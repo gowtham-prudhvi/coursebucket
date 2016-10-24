@@ -22,13 +22,15 @@ class WelcomeController < ApplicationController
      
   end 
   def signup
-  result=execute_statement("select password from users where id=#{cookies[:user_id]}")
+    if cookies[:user_id]
+      result=execute_statement("select password from users where id=#{cookies[:user_id]}")
 
-  if cookies[:hash].eql? result[0]["password"]
-    redirect_to "/welcome/index"
-    bell=0
-    return
-  end 
+      if cookies[:hash].eql? result[0]["password"]
+        redirect_to "/welcome/index"
+        bell=0
+        return
+      end 
+    end
     require 'digest/md5'
   	if params[:user]
   		email = params[:user][:email]
