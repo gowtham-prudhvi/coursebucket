@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'home/catalog'
+
   resources :usermails
   get 'welcome/signup'
   post 'welcome/signup'
