@@ -1,0 +1,62 @@
+require 'pg'
+
+class PostgresDirect
+  # Create the connection instance.
+  def connect
+    @conn = PG.connect(
+        :dbname => 'myapp_development',
+        :host => 'localhost',
+        :user => 'pguser',
+        :password => 'pguser_password')
+  end
+
+  # Create our test table (assumes it doesn't already exist)
+  def createUserTable(tableName)
+    @conn.exec("DROP TABLE IF EXISTS #{tableName}")
+    @conn.exec("CREATE TABLE #{tableName} (id character varying(255) NOT NULL, name character varying(255), slug character varying(255), courseType character varying(255)) WITH (OIDS=FALSE);");
+  end
+
+  # When we're done, we're going to drop our test table.
+  def dropUserTable(tableName)
+    @conn.exec("DROP TABLE #{tableName}")
+  end
+
+  # Prepared statements prevent SQL injection attacks.  However, for the connection, the prepared statements
+  # live and apparently cannot be removed, at least not very easily.  There is apparently a significant
+  # performance improvement using prepared statements.
+  def prepareInsertUserStatement(tableName)
+    @conn.prepare("insert_user", "insert into #{tableName} (id, name, slug, courseType) values ($1, $2, $3, $4)")
+  end
+
+  # Add a user with the prepared statement.
+  def addUser(id, name, slug, courseType)
+    @conn.exec_prepared("insert_user", [id, name, slug, courseType])
+  end
+
+  # Get our data back
+  def queryUserTable(tableName)
+    @conn.exec( "SELECT * FROM #{tableName}" ) do |result|
+      result.each do |row|
+        yield row if block_given?
+      end
+    end
+  end
+
+  # Disconnect the back-end connection.
+  def disconnect
+    @conn.close
+  end
+end
+
+def main
+  p = PostgresDirect.new()
+  p.connect
+  begin
+    p.createUserTable("catalog")
+    p.prepareInsertUserStatement("catalog")
+    p.addUser("test1", "test1", "test1", "test1")
+    p.addUser("test2", "test2", "test2", "test2")
+  end
+end
+
+main

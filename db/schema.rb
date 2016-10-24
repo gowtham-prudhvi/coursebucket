@@ -15,6 +15,13 @@ ActiveRecord::Schema.define(version: 20161021124216) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "catalog", id: false, force: :cascade do |t|
+    t.string "id",         limit: 255, null: false
+    t.string "name",       limit: 255
+    t.string "slug",       limit: 255
+    t.string "coursetype", limit: 255
+  end
+
   create_table "posts", force: :cascade do |t|
     t.string   "title"
     t.text     "body"
