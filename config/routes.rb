@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :usermails
   get 'welcome/signup'
   post 'welcome/signup'
   get 'welcome/login'
