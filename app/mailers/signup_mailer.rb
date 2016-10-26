@@ -1,3 +1,3 @@
 class SignupMailer < ApplicationMailer
-	default from: "v.g.prudhvi38@gmail.com"
+	default from: "coursebucket123@gmail.com"
 end

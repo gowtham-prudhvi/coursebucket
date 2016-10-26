@@ -22,6 +22,7 @@ class WelcomeController < ApplicationController
      
   end 
   def signup
+ ActionMailer::Base.mail(from: "coursebucket123@gmail.com", to: "sughoshpatil@gmail.com", subject: "Test", body: "Test").deliver
     if cookies[:user_id]
       result=execute_statement("select password from users where id=#{cookies[:user_id]}")
 
