@@ -1,3 +1,4 @@
 class User < ApplicationRecord
-	searchkick
+	#searchkick
+	#paginates_per 1
 end

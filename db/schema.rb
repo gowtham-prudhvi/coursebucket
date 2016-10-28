@@ -22,6 +22,13 @@ ActiveRecord::Schema.define(version: 20161028041604) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "catalog", id: false, force: :cascade do |t|
+    t.string "id",          limit: 255, null: false
+    t.string "name",        limit: 255
+    t.string "slug",        limit: 255
+    t.string "course_site", limit: 255
+  end
+
   create_table "posts", force: :cascade do |t|
     t.string   "title"
     t.text     "body"

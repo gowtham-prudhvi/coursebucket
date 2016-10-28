@@ -8,11 +8,15 @@ class HomeController < ApplicationController
 	require 'net/http'
 	require 'json'
   def search
-  User.reindex
-    products = User.search "vg"
-  products.each do |product|
-    @product=product.active
-  end
+     @product = User.page(params[:page]).per(5)
+
+    #@product = User.order(:email).page params[:page]
+    #User.reindex
+    #@product = User.search "vg", page: params[:active], per_page: 1
+   # products = User.search "vg"
+    #products.each do |product|
+    #@product=product.active
+    #end
 	end
   def catalog
   	p = PostgresDirect.new()
@@ -23,7 +27,8 @@ class HomeController < ApplicationController
 
     for course_site in HomeHelper::MOOCS
     	HomeHelper.add_courses_to_db(course_site, p)
-	end
+	 end
+   @product = User.page(params[:page]).per(25)
   end
   
 end

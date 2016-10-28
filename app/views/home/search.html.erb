@@ -1,2 +1,10 @@
 <h1>Home#search</h1>
-<%= "#{@product}" %>
+<% @product.each do |product| %>
+  <h2><%= product.email %></h2>
+  <p>
+  <%= product.active %>
+  </p>
+<% end %>
+<hr />
+<%= paginate @product %>
+<%= page_entries_info @product %>
