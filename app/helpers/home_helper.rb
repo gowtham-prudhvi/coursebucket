@@ -1,5 +1,5 @@
 module HomeHelper
-	MOOCS = {"coursera", "udacity"}
+	#MOOCS = {"coursera", "udacity"}
 
 	def add_courses_to_db(course_site, connection)
 	  	i = 0
@@ -34,7 +34,7 @@ module HomeHelper
 		elsif json_data.key?(:courses)
 			return json_data["courses"]
 		end
-
+	end
 	def get_url(course_site, index)
 		if course_site == "coursera"
 			return "https://api.coursera.org/api/courses.v1?start=#{index}&limit=25"
@@ -61,6 +61,7 @@ module HomeHelper
 		else
 			return "No name"
 		end
+
 	end
 
 	def get_slug(dicti)

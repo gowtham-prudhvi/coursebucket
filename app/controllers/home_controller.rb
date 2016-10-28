@@ -1,14 +1,18 @@
 require 'net/http'
 require 'json'
 
-require 'db/CourseTable.rb'
-require 'app/helpers/home_helper.rb'
+require './db/CourseTable.rb'
+require './app/helpers/home_helper.rb'
 
 class HomeController < ApplicationController
 	require 'net/http'
 	require 'json'
   def search
-  
+  User.reindex
+    products = User.search "vg"
+  products.each do |product|
+    @product=product.active
+  end
 	end
   def catalog
   	p = PostgresDirect.new()
