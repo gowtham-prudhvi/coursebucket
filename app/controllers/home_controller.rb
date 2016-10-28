@@ -26,7 +26,7 @@ class HomeController < ApplicationController
     p.prepareInsertUserStatement("catalog")
 
     for course_site in HomeHelper::MOOCS
-    	HomeHelper.add_courses_to_db(course_site, p)
+    	HomeHelper:add_courses_to_db(course_site, p)
 	 end
    @product = User.page(params[:page]).per(25)
   end
