@@ -1,12 +1,11 @@
 require 'net/http'
 require 'json'
 
-require 'db/CourseTable.rb'
-require 'app/helpers/home_helper.rb'
+require '/home/kk/Dropbox/Acads/sem 5/CS252/coursebucket/app/helpers/home_helper.rb'
+require '/home/kk/Dropbox/Acads/sem 5/CS252/coursebucket/db/CourseTable.rb'
 
 class HomeController < ApplicationController
-	require 'net/http'
-	require 'json'
+	include HomeHelper
   def search
   
 	end

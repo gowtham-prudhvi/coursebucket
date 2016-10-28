@@ -22,6 +22,13 @@ ActiveRecord::Schema.define(version: 20161028041604) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "catalog", id: false, force: :cascade do |t|
+    t.string "id",          limit: 255, null: false
+    t.string "name",        limit: 255
+    t.string "slug",        limit: 255
+    t.string "course_site", limit: 255
+  end
+
   create_table "posts", force: :cascade do |t|
     t.string   "title"
     t.text     "body"
@@ -42,11 +49,12 @@ ActiveRecord::Schema.define(version: 20161028041604) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string  "email",      limit: 50,             null: false
-    t.string  "password",                          null: false
-    t.string  "first_name", limit: 30,             null: false
-    t.string  "last_name",  limit: 30,             null: false
-    t.integer "active",                default: 1, null: false
+    t.string   "email",      limit: 50, null: false
+    t.string   "password",              null: false
+    t.string   "first_name", limit: 30, null: false
+    t.string   "last_name",  limit: 30, null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
 end
