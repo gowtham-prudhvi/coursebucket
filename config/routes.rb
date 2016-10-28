@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'test/test'
+
+  get 'home/search'
+  post 'home/search'
   get 'home/catalog'
 
   resources :usermails
