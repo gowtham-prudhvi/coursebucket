@@ -1,5 +1,7 @@
 module HomeHelper
-	MOOCS = {"coursera", "udacity"}
+	MOOCS = {COURSERA:"coursera", UDACITY:"udacity"}
+	COURSERA_URL = "https://api.coursera.org/api/courses.v1?start=#{index}&limit=25"
+	UDACITY_URL = "https://www.udacity.com/public-api/v0/courses"
 
 	def add_courses_to_db(course_site, connection)
 	  	i = 0
@@ -20,7 +22,7 @@ module HomeHelper
 		  	end
 
 		  	i += 25
-		  	if course_site == "coursera"
+		  	if course_site == COURSERA
 		  		nxt = course_json["next"]
 		  	else
 		  		nxt = 0
@@ -36,10 +38,10 @@ module HomeHelper
 		end
 
 	def get_url(course_site, index)
-		if course_site == "coursera"
-			return "https://api.coursera.org/api/courses.v1?start=#{index}&limit=25"
-		elsif course_site == "udacity"
-			return "https://www.udacity.com/public-api/v0/courses"
+		if course_site == COURSERA
+			return COURSERA_URL
+		elsif course_site == UDACITY
+			return UDACITY_URL
 		end
 	end
 
