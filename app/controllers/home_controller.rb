@@ -17,6 +17,7 @@ class HomeController < ApplicationController
     #@product=product.active
     #end
 	end
+  
   def catalog
   	p = PostgresDirect.new()
   	p.connect
