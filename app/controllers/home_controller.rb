@@ -1,8 +1,8 @@
 require 'net/http'
 require 'json'
 
-require '/home/kk/Dropbox/Acads/sem 5/CS252/coursebucket/app/helpers/home_helper.rb'
-require '/home/kk/Dropbox/Acads/sem 5/CS252/coursebucket/db/CourseTable.rb'
+require './app/helpers/home_helper.rb'
+require './db/CourseTable.rb'
 
 class HomeController < ApplicationController
 	include HomeHelper
@@ -25,7 +25,7 @@ class HomeController < ApplicationController
     p.prepareInsertUserStatement("catalog")
 
     for course_site in HomeHelper::MOOCS
-    	HomeHelper:add_courses_to_db(course_site, p)
+    	HomeHelper.add_courses_to_db(course_site, p)
 	 end
    @product = User.page(params[:page]).per(25)
   end
