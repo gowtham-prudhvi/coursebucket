@@ -1,8 +1,8 @@
 require 'net/http'
 require 'json'
 
-require '/home/kk/Dropbox/Acads/sem 5/CS252/coursebucket/app/helpers/home_helper.rb'
-require '/home/kk/Dropbox/Acads/sem 5/CS252/coursebucket/db/CourseTable.rb'
+require './app/helpers/home_helper.rb'
+require './db/CourseTable.rb'
 
 class HomeController < ApplicationController
 	include HomeHelper
@@ -17,6 +17,7 @@ class HomeController < ApplicationController
     #@product=product.active
     #end
 	end
+  
   def catalog
   	p = PostgresDirect.new()
   	p.connect
