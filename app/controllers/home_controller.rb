@@ -8,11 +8,15 @@ class HomeController < ApplicationController
 	include HomeHelper
   def search
     # @product = User.page(params[:page]).per(5)
-
+    if params[:tags]
+      
+    
     #@product = User.order(:email).page params[:page]
-    #User.reindex
+    #Catalog.reindex
+    User.reindex
     @result=execute_statement("select name from catalog")
-    @product = User.search "vg", page: params[:active], per_page: 10
+    #@product = Catalog.search "machine", page: params[:active], per_page: 10
+    @product = User.search params[:tags], page: params[:active], per_page: 10
     #byebug
      @chart_values = '['
     @result.each do |m|
@@ -20,6 +24,19 @@ class HomeController < ApplicationController
      @chart_values = @chart_values+"\"#{value}\""+','
     end
     @chart_values = @chart_values+']'
+    else
+       User.reindex
+    @result=execute_statement("select name from catalog")
+    #@product = Catalog.search "machine", page: params[:active], per_page: 10
+    @product = User.search "asa", page: params[:active], per_page: 10
+    #byebug
+     @chart_values = '['
+    @result.each do |m|
+      value=m["name"].downcase.gsub(/[^a-z0-9\s]/i, '')
+     @chart_values = @chart_values+"\"#{value}\""+','
+    end
+    @chart_values = @chart_values+']'
+    end
 
    # products = User.search "vg"
     #products.each do |product|
