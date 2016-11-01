@@ -10,32 +10,11 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
   $( function() {
-    var availableTags = [
-      "ActionScript",
-      "AppleScript",
-      "Asp",
-      "BASIC",
-      "C",
-      "C++",
-      "Clojure",
-      "COBOL",
-      "ColdFusion",
-      "Erlang",
-      "Fortran",
-      "Groovy",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Lisp",
-      "Perl",
-      "PHP",
-      "Python",
-      "Ruby",
-      "Scala",
-      "Scheme"
-    ];
+    
+    var courses= <%= raw @chart_values %>
+    // console.log(bills[0]);
     $( "#tags" ).autocomplete({
-      source: availableTags
+      source: courses
     });
   } );
   </script>
@@ -43,7 +22,7 @@
 <body>
  
 <div class="ui-widget">
-  <label for="tags">Tags: </label>
+  <label for="tags">Search: </label>
   <input id="tags">
 </div>
  
