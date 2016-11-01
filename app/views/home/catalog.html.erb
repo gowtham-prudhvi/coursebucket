@@ -1,12 +1,7 @@
 <h1>Home#catalog</h1>
 <p>Find me in app/views/home/catalog.html.erb</p>
-
-<h1>Home#search</h1>
 <% @product.each do |product| %>
-  <h2><%= product.name %></h2>
-  <p>
-  <%= product.course_site %>
-  </p>
+  <h4><%= product.name %> in <%= product.course_site %></h4>
 <% end %>
 <hr />
 <%= paginate @product %>

@@ -12,7 +12,7 @@ class HomeController < ApplicationController
     #@product = User.order(:email).page params[:page]
     #User.reindex
     @result=execute_statement("select name from catalog")
-    @product = User.search "vg", page: params[:active], per_page: 5
+    @product = User.search "vg", page: params[:active], per_page: 10
     #byebug
      @chart_values = '['
     @result.each do |m|
@@ -28,16 +28,18 @@ class HomeController < ApplicationController
 	end
   
   def catalog
-  	p = PostgresDirect.new()
-  	p.connect
-  	
+   @product = Catalog.order('name').page(params[:page]).per(10)
+  end
+  def catalog_update
+    p = PostgresDirect.new()
+    p.connect
+    
     p.createUserTable("catalog")
     p.prepareInsertUserStatement("catalog")
 
     for course_site in HomeHelper::MOOCS
-    	HomeHelper.add_courses_to_db(course_site, p)
-	 end
-   @product = User.page(params[:page]).per(25)
+      HomeHelper.add_courses_to_db(course_site, p)
+   end
   end
   def execute_statement(sql)
         results = ActiveRecord::Base.connection.execute(sql)

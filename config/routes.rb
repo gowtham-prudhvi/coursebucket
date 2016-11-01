@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'home/catalog_update'
+
   get 'test/test'
 
   get 'home/search'
