@@ -12,8 +12,9 @@
   $( function() {
     
     var courses= <%= raw @chart_values %>
-    // console.log(bills[0]);
+    
     $( "#tags" ).autocomplete({
+    	// console.log(courses);
       source: courses
     });
   } );

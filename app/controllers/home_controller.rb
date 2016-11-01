@@ -11,13 +11,13 @@ class HomeController < ApplicationController
 
     #@product = User.order(:email).page params[:page]
     #User.reindex
-    @result=execute_statement("select email from users")
-    @product = User.search "vg", page: params[:active], per_page: 1
+    @result=execute_statement("select name from catalog")
+    @product = User.search "vg", page: params[:active], per_page: 5
     #byebug
      @chart_values = '['
-    @product.each do |m|
-
-     @chart_values = @chart_values+"\"#{m.email}\""+','
+    @result.each do |m|
+      value=m["name"].downcase.gsub(/[^a-z0-9\s]/i, '')
+     @chart_values = @chart_values+"\"#{value}\""+','
     end
     @chart_values = @chart_values+']'
 
