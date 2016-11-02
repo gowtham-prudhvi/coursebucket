@@ -25,7 +25,7 @@ class HomeController < ApplicationController
     end
     @chart_values = @chart_values+']'
     else
-       User.reindex
+       #User.reindex
     @result=execute_statement("select name from catalog")
     #@product = Catalog.search "machine", page: params[:active], per_page: 10
     @product = User.search "asa", page: params[:active], per_page: 10
