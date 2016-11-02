@@ -47,6 +47,7 @@ class HomeController < ApplicationController
   def catalog
    @product = Catalog.order('name').page(params[:page]).per(10)
   end
+  
   def catalog_update
     p = PostgresDirect.new()
     p.connect
@@ -58,6 +59,7 @@ class HomeController < ApplicationController
       HomeHelper.add_courses_to_db(course_site, p)
    end
   end
+  
   def execute_statement(sql)
         results = ActiveRecord::Base.connection.execute(sql)
         if results.present?
@@ -67,5 +69,4 @@ class HomeController < ApplicationController
         end
     end
 
-  
 end

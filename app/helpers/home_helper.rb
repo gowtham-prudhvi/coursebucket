@@ -23,10 +23,10 @@ module HomeHelper
 		  	
 		  	# puts "#{course_courses}"
 		  	for course in course_courses
-			  	id = get_id(course)
+			  	course_id = get_course_id(course)
 			  	name = get_name(course)
 			  	slug = get_slug(course)
-			  	connection.addUser(id, name, slug, course_site)
+			  	connection.addUser(course_id, name, slug, course_site)
 		  	end
 
 		  	i += 25
@@ -60,13 +60,13 @@ module HomeHelper
 		end
 	end
 
-	def self.get_id(dicti)
+	def self.get_course_id(dicti)
 		if dicti.key?("id")
 			return dicti["id"]
 		elsif dicti.key?("key")
 			return dicti["key"]
 		else
-			return "No id"
+			return "No course_id"
 		end
 	end
 
