@@ -61,8 +61,8 @@ module HomeHelper
 	end
 
 	def self.get_course_id(dicti)
-		if dicti.key?("course_id")
-			return dicti["course_id"]
+		if dicti.key?("id")
+			return dicti["id"]
 		elsif dicti.key?("key")
 			return dicti["key"]
 		else
