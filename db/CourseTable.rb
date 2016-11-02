@@ -13,7 +13,7 @@ class PostgresDirect
   # Create our test table (assumes it doesn't already exist)
   def createUserTable(tableName)
     @conn.exec("DROP TABLE IF EXISTS #{tableName}")
-    @conn.exec("CREATE TABLE #{tableName} (id character varying(255) NOT NULL, name character varying(255), slug character varying(255), course_site character varying(255)) WITH (OIDS=FALSE);");
+    @conn.exec("CREATE TABLE #{tableName} (id SERIAL PRIMARY KEY NOT NULL, course_id character varying(255) NOT NULL, name character varying(255), slug character varying(255), course_site character varying(255)) WITH (OIDS=FALSE);");
   end
 
   # When we're done, we're going to drop our test table.
@@ -25,12 +25,12 @@ class PostgresDirect
   # live and apparently cannot be removed, at least not very easily.  There is apparently a significant
   # performance improvement using prepared statements.
   def prepareInsertUserStatement(tableName)
-    @conn.prepare("insert_user", "insert into #{tableName} (id, name, slug, course_site) values ($1, $2, $3, $4)")
+    @conn.prepare("insert_user", "insert into #{tableName} (course_id, name, slug, course_site) values ($1, $2, $3, $4)")
   end
 
   # Add a user with the prepared statement.
-  def addUser(id, name, slug, course_site)
-    @conn.exec_prepared("insert_user", [id, name, slug, course_site])
+  def addUser(course_id, name, slug, course_site)
+    @conn.exec_prepared("insert_user", [course_id, name, slug, course_site])
   end
 
   # Get our data back
@@ -48,6 +48,7 @@ class PostgresDirect
   end
 end
 
+# Test
 def main
   p = PostgresDirect.new()
   p.connect
