@@ -13,10 +13,10 @@ class HomeController < ApplicationController
     
     #@product = User.order(:email).page params[:page]
     #Catalog.reindex
-    User.reindex
+    Catalog.reindex
     @result=execute_statement("select name from catalog")
     #@product = Catalog.search "machine", page: params[:active], per_page: 10
-    @product = User.search params[:tags], page: params[:active], per_page: 10
+    @product = Catalog.search params[:tags], page: params[:active], per_page: 10
     #byebug
      @chart_values = '['
     @result.each do |m|

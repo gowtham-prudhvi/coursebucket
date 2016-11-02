@@ -49,10 +49,10 @@ class PostgresDirect
 end
 
 # # Test
-# def main
-#   p = PostgresDirect.new()
-#   p.connect
-#   begin
+#  def main
+#    p = PostgresDirect.new()
+#    p.connect
+#    begin
 #     p.createUserTable("catalog")
 #     p.prepareInsertUserStatement("catalog")
 #     p.addUser("test1", "test1", "test1", "test1")
