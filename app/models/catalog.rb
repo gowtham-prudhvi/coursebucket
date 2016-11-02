@@ -1,4 +1,6 @@
 class Catalog < ApplicationRecord
 	self.table_name = "catalog"
-	searchkick
+	searchable do
+    text :name
+  	end
 end

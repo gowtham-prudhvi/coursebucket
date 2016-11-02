@@ -163,13 +163,11 @@ a {
 
 
   <% @product.each do |product| %>
-    <h2><%= product.name %></h2>
-    <p>
-    <%= product.course_site %>
-    </p>
+    <h4><%= product.name %> in <%= product.course_site %></h4>
+    
    <% end %>
   
 <hr />
   
-<%= paginate @product %>
-<%= page_entries_info @product %>
+<%= paginate @product1.hits %>
+

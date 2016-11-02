@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'sunspot_rails'
+gem 'sunspot_solr'
 gem 'searchkick'
 gem 'kaminari'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

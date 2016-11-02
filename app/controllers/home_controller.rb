@@ -13,10 +13,17 @@ class HomeController < ApplicationController
     
     #@product = User.order(:email).page params[:page]
     #Catalog.reindex
-    Catalog.reindex
+    #Catalog.reindex
     @result=execute_statement("select name from catalog")
     #@product = Catalog.search "machine", page: params[:active], per_page: 10
-    @product = Catalog.search params[:tags], page: params[:active], per_page: 10
+    #@product = Catalog.search params[:tags], page: params[:active], per_page: 10
+    @product =Catalog.search do
+      keywords(params[:tags])
+      paginate(:page => params[:page] || 1, :per_page => 10)
+    end
+    @product1=@product
+    @product=@product.results
+    #byebug
     #byebug
      @chart_values = '['
     @result.each do |m|
@@ -28,8 +35,14 @@ class HomeController < ApplicationController
        #User.reindex
     @result=execute_statement("select name from catalog")
     #@product = Catalog.search "machine", page: params[:active], per_page: 10
-    @product = User.search "asa", page: params[:active], per_page: 10
+    #@product = User.search "asa", page: params[:active], per_page: 10
     #byebug
+    @product =Catalog.search do
+      keywords('asaasss')
+      paginate(:page => params[:page] || 1, :per_page => 10)
+    end
+    @product1=@product
+    @product=@product.results
      @chart_values = '['
     @result.each do |m|
       value=m["name"].downcase.gsub(/[^a-z0-9\s]/i, '')
