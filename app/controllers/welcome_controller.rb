@@ -1,7 +1,10 @@
 class WelcomeController < ApplicationController
+  
+  before_action :authenticate_deviseuser!
   def index
   end
   def login
+
     require 'digest/md5'
   	if params[:user]
   	email = params[:user][:email]

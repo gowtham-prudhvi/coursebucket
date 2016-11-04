@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'devise'
 gem 'sunspot_rails'
 gem 'sunspot_solr'
 gem 'searchkick'

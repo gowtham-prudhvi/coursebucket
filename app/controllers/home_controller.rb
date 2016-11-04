@@ -10,7 +10,7 @@ class HomeController < ApplicationController
     
     if params[:tags]
     @product =Catalog.search do
-      keywords(params[:tags])
+      fulltext(params[:tags])
       paginate(:page => params[:page] || 1, :per_page => 10)
     end
 

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :deviseusers
   get 'home/catalog_update'
 
   get 'test/test'
