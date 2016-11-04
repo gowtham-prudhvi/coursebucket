@@ -7,54 +7,46 @@ require './db/CourseTable.rb'
 class HomeController < ApplicationController
 	include HomeHelper
   def search
-    # @product = User.page(params[:page]).per(5)
-    if params[:tags]
-      
     
-    #@product = User.order(:email).page params[:page]
-    #Catalog.reindex
-    #Catalog.reindex
-    @result=execute_statement("select name from catalog")
-    #@product = Catalog.search "machine", page: params[:active], per_page: 10
-    #@product = Catalog.search params[:tags], page: params[:active], per_page: 10
+    if params[:tags]
     @product =Catalog.search do
       keywords(params[:tags])
       paginate(:page => params[:page] || 1, :per_page => 10)
     end
+
+
     @product1=@product
     @product=@product.results
-    #byebug
-    #byebug
-     @chart_values = '['
+
+    @result=execute_statement("select name from catalog")
+    @chart_values = '['
     @result.each do |m|
       value=m["name"].downcase.gsub(/[^a-z0-9\s]/i, '')
-     @chart_values = @chart_values+"\"#{value}\""+','
+      @chart_values = @chart_values+"\"#{value}\""+','
     end
     @chart_values = @chart_values+']'
+
+
     else
-       #User.reindex
-    @result=execute_statement("select name from catalog")
-    #@product = Catalog.search "machine", page: params[:active], per_page: 10
-    #@product = User.search "asa", page: params[:active], per_page: 10
-    #byebug
-    @product =Catalog.search do
+      
+      @product =Catalog.search do
       keywords('asaasss')
       paginate(:page => params[:page] || 1, :per_page => 10)
-    end
+      end
+
+
     @product1=@product
     @product=@product.results
-     @chart_values = '['
+
+
+    @result=execute_statement("select name from catalog")
+    @chart_values = '['
     @result.each do |m|
       value=m["name"].downcase.gsub(/[^a-z0-9\s]/i, '')
-     @chart_values = @chart_values+"\"#{value}\""+','
+      @chart_values = @chart_values+"\"#{value}\""+','
     end
     @chart_values = @chart_values+']'
     end
-
-   # products = User.search "vg"
-    #products.each do |product|
-    #@product=product.active
-    #end
 	end
   
   def catalog
