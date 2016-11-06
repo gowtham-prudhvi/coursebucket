@@ -22,19 +22,6 @@ ActiveRecord::Schema.define(version: 20161104092706) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "catalog", force: :cascade do |t|
-    t.string "course_id",   limit: 255, null: false
-    t.string "name",        limit: 255
-    t.string "slug",        limit: 255
-    t.string "course_site", limit: 255
-  end
-
-  create_table "catalogs", id: :string, limit: 255, force: :cascade do |t|
-    t.string "name",        limit: 255
-    t.string "slug",        limit: 255
-    t.string "course_site", limit: 255
-  end
-
   create_table "deviseusers", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -72,11 +59,12 @@ ActiveRecord::Schema.define(version: 20161104092706) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string  "email",      limit: 50,             null: false
-    t.string  "password",                          null: false
-    t.string  "first_name", limit: 30,             null: false
-    t.string  "last_name",  limit: 30,             null: false
-    t.integer "active",                default: 1, null: false
+    t.string   "email",      limit: 50, null: false
+    t.string   "password",              null: false
+    t.string   "first_name", limit: 30, null: false
+    t.string   "last_name",  limit: 30, null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
 end
