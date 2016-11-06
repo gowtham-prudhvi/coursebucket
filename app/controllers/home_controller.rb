@@ -1,5 +1,3 @@
-
-
 require 'net/http'
 require 'json'
 
@@ -59,7 +57,8 @@ class HomeController < ApplicationController
   def course_details
    @id = params[:id]
    @site=params[:site]
-
+   details = HomeHelper.get_course_details(site, id)
+     
   end
   
   def catalog_update

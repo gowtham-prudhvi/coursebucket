@@ -8,6 +8,8 @@ module HomeHelper
 	UDACITY = "udacity"
 
 	UDACITY_URL = "https://www.udacity.com/public-api/v0/courses"
+	COURSERA_URL = "https://api.coursera.org/api/courses.v1?start=%d&limit=25"
+	COURSERA_COURSE_DETAILS_URL = "https://api.coursera.org/api/courses.v1/%s?includes=instructorIds,partnerIds&fields=instructorIds&fields=instructors.v1(firstName,lastName,suffix)"
 
 	def self.add_courses_to_db(course_site, connection)
 	  	i = 0
@@ -54,7 +56,7 @@ module HomeHelper
 
 	def self.get_url(course_site, index)
 		if course_site == COURSERA
-			return "https://api.coursera.org/api/courses.v1?start=#{index}&limit=25"
+			return COURSERA_URL % [index]
 		elsif course_site == UDACITY
 			return UDACITY_URL
 		end
@@ -86,6 +88,17 @@ module HomeHelper
 			return dicti["slug"]
 		else
 			return "No slug"
+		end
+	end
+
+	def self.get_course_details(site, id)
+		if site == COURSERA
+			details_url = COURSERA_COURSE_DETAILS_URL % [id]
+			uri = URI(details_url)
+			response = Net::HTTP.get(uri)
+		  	json = JSON.parse(response)
+		  	coursescourses(json)
+
 		end
 	end
 end
