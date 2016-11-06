@@ -1,3 +1,5 @@
+
+
 require 'net/http'
 require 'json'
 
@@ -5,6 +7,7 @@ require './app/helpers/home_helper.rb'
 require './db/CourseTable.rb'
 
 class HomeController < ApplicationController
+  before_action :authenticate_deviseuser!
 	include HomeHelper
   def search
     
@@ -51,6 +54,12 @@ class HomeController < ApplicationController
   
   def catalog
    @product = Catalog.order('name').page(params[:page]).per(10)
+  end
+
+  def course_details
+   @id = params[:id]
+   @site=params[:site]
+
   end
   
   def catalog_update

@@ -163,7 +163,7 @@ a {
 
 
   <% @product.each do |product| %>
-    <h4><%= product.name %> in <%= product.course_site %></h4>
+    <h4><%= link_to product.name, "/home/course_details?id=#{product.course_id}&site=#{product.course_site}" %> in <%= product.course_site %></h4>
     
    <% end %>
   
