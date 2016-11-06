@@ -28,15 +28,22 @@ module HomeHelper
 			  	course_id = get_course_id(course)
 			  	name = get_name(course)
 			  	slug = get_slug(course)
-			  	connection.addUser(course_id, name, slug, course_site)
+
+			  	if course_site == COURSERA
+			  		# Coursera - get course details here
+			  		instructors = get_instructors(COURSERA, course_id)
+			  	elsif course_site == UDACITY
+			  		# Udacity - course details
+			  		instructors = get_instructors(UDACITY,0,course)
+			  	end
+			  	puts "------<#{instructors}>-----"
+			  	connection.addUser(course_id, name, slug, course_site, instructors)
 		  	end
 
 		  	i += 25
 		  	if course_site == COURSERA
-		  		puts "coursera"
 		  		if course_json["paging"].key?("next")
 		  			nxt = course_json["paging"]["next"].to_i
-		  			puts "nxt=#{nxt}"
 		  		else
 		  			nxt = 0
 		  		end
@@ -91,14 +98,51 @@ module HomeHelper
 		end
 	end
 
-	def self.get_course_details(site, id)
+	def self.get_instructors(site, id=0, course={})
+		instructors = "None"
 		if site == COURSERA
 			details_url = COURSERA_COURSE_DETAILS_URL % [id]
 			uri = URI(details_url)
 			response = Net::HTTP.get(uri)
 		  	json = JSON.parse(response)
-		  	coursescourses(json)
-
+		  	details = json["linked"]
+		  	if details.key?("instructors.v1")
+		  		# instructor
+		  		instructors_array = details["instructors.v1"]
+		  		puts instructors_array
+		  		num = instructors_array.length
+		  		if num == 0
+		  			instructors = "None"
+		  		else
+		  			temp = 0
+		  			instructors = "#{instructors_array[0]['fullName']}"
+		  			while temp + 1 < num
+		  				temp += 1
+		  				# puts "----<#{instructors_array[temp]}>----"
+		  				instructors += ",#{instructors_array[temp]['fullName']}"
+		  			end
+		  		end 
+		  	else
+		  		instructors = "None"
+		  	end
+		elsif site == UDACITY
+			instructors_array = course["instructors"]
+			num = instructors_array.length
+			if num == 0
+				instructors = "None"
+			else
+				temp = 0
+				instructors = "#{instructors_array[0]["name"]}"
+				while temp < num
+					temp++
+					instructors += ",#{instructors_array[temp]["name"]}"
+				end
+			end
 		end
+		return instructors
+	end
+
+	def self.get_course_details(site, id)
+		# TODO: search in the db according to id
 	end
 end

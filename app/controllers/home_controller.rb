@@ -57,6 +57,7 @@ class HomeController < ApplicationController
   def course_details
    @id = params[:id]
    @site=params[:site]
+   # TODO:
    details = HomeHelper.get_course_details(site, id)
      
   end
