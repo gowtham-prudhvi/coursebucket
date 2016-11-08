@@ -9,7 +9,7 @@ module HomeHelper
 
 	UDACITY_URL = "https://www.udacity.com/public-api/v0/courses"
 	COURSERA_URL = "https://api.coursera.org/api/courses.v1?start=%d&limit=25"
-	COURSERA_COURSE_DETAILS_URL = "https://api.coursera.org/api/courses.v1/%s?includes=instructorIds,partnerIds&fields=instructorIds&fields=instructors.v1(firstName,lastName,suffix)"
+	COURSERA_COURSE_DETAILS_URL = "https://api.coursera.org/api/courses.v1/%s?includes=instructorIds,partnerIds&fields=instructorIds&dfields=instructorIds,partnerIds,instructors.v1(firstName,lastName,suffix)"
 
 	def self.add_courses_to_db(course_site, connection)
 	  	i = 0
@@ -122,7 +122,36 @@ module HomeHelper
 					partners += ",#{{partners_array[temp]['affiliates']}}"
 				end
 			end		
+		elsif site == COURSERA
+			details_url = COURSERA_COURSE_DETAILS_URL % [id]
+			uri = URI(details_url)
+			response = Net::HTTP.get(uri)
+		  	json = JSON.parse(response)
+		  	details = json["linked"]
+		  	if details.key?("partners.v1")
+		  		# instructor
+		  		partners_array = details["partners.v1"]
+		  		num = partners_array.length
+		  		if num == 0
+		  			partners = "None"
+		  		else
+		  			temp = 0
+		  			partners = "#{partners_array[0]['name']}"
+		  			while temp + 1 < num
+		  				temp += 1
+		  				# check for full name
+		  				if partners_array[temp].key?(name)
+		  					partners += ",#{partners_array[temp]['name']}" 
+		  				end
+		  			end
+		  		end 
+		  	else
+		  		partners = "None"
+		  	end
 		end	
+
+
+
 		return partners
 	end	
 
@@ -152,8 +181,10 @@ module HomeHelper
 		  			while temp + 1 < num
 		  				temp += 1
 		  				# check for full name
-		  				if 
-		  				instructors += ",#{instructors_array[temp]['fullName']}"
+		  				if partners_array[temp].key?(name)
+		  					instructors += ",#{instructors_array[temp]['fullName']}"	
+		  				end
+
 		  			end
 		  		end 
 		  	else
