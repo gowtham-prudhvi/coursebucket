@@ -32,12 +32,14 @@ module HomeHelper
 			  	if course_site == COURSERA
 			  		# Coursera - get course details here
 			  		instructors = get_instructors(COURSERA, course_id)
+			  		partners,homepage = get_details(COURSERA, course_id)
 			  	elsif course_site == UDACITY
 			  		# Udacity - course details
 			  		instructors = get_instructors(UDACITY,0,course)
+			  		partners,homepage = get_details(UDACITY, 0, course)
 			  	end
 			  	puts "------<#{instructors}>-----"
-			  	connection.addUser(course_id, name, slug, course_site, instructors)
+			  	connection.addUser(course_id, name, slug, course_site, instructors, partners, homepage)
 		  	end
 
 		  	i += 25
@@ -98,12 +100,6 @@ module HomeHelper
 		end
 	end
 
-###########################33
-
-
-
-
-
 	def self.get_details(site, id=0, course={})
 		partners = "None"
 		course_url=""
@@ -154,15 +150,8 @@ module HomeHelper
 		  	end
 		end	
 
-
-
-		return [course_url,partners]
+		return course_url,partners
 	end	
-
-
-############################
-
-
 
 	def self.get_instructors(site, id=0, course={})
 		instructors = "None"
