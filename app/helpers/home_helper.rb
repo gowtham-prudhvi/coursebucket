@@ -108,6 +108,9 @@ module HomeHelper
 		partners = "None"
 		course_url=""
 		if site== UDACITY
+			if course.key?(homepage)
+				course_url=coure["homepage"]
+			end
 			partners_array = course["affiliates"]
 			num = partners_array.length
 			if num == 0 
@@ -123,6 +126,7 @@ module HomeHelper
 				end
 			end		
 		elsif site == COURSERA
+			course_url="https://api.coursera.org/api/courses.v1/%s" % [id]
 			details_url = COURSERA_COURSE_DETAILS_URL % [id]
 			uri = URI(details_url)
 			response = Net::HTTP.get(uri)
@@ -152,7 +156,7 @@ module HomeHelper
 
 
 
-		return partners
+		return [course_url,partners]
 	end	
 
 
