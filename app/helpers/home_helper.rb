@@ -9,7 +9,7 @@ module HomeHelper
 
 	UDACITY_URL = "https://www.udacity.com/public-api/v0/courses"
 	COURSERA_URL = "https://api.coursera.org/api/courses.v1?start=%d&limit=25"
-	COURSERA_COURSE_DETAILS_URL = "https://api.coursera.org/api/courses.v1/%s?includes=instructorIds,partnerIds&fields=instructorIds&dfields=instructorIds,partnerIds,instructors.v1(firstName,lastName,suffix)"
+	COURSERA_COURSE_DETAILS_URL = "https://api.coursera.org/api/courses.v1/%s?includes=instructorIds,partnerIds&fields=instructorIds,previewLink,partnerIds,instructors.v1(firstName,lastName,suffix)"
 
 	def self.add_courses_to_db(course_site, connection)
 	  	i = 0
@@ -124,12 +124,17 @@ module HomeHelper
 				end
 			end		
 		elsif site == COURSERA
-			course_url="https://api.coursera.org/api/courses.v1/%s" % [id]
 			details_url = COURSERA_COURSE_DETAILS_URL % [id]
 			uri = URI(details_url)
 			response = Net::HTTP.get(uri)
 		  	json = JSON.parse(response)
 		  	details = json["linked"]
+			
+			if json["elements"][0].key?("slug")
+				puts json["elements"][0]["slug"]
+				course_url="https://www.coursera.org/learn/#{json['elements'][0]['slug']}"
+			end
+		  	
 		  	if details.key?("partners.v1")
 		  		# instructor
 		  		partners_array = details["partners.v1"]
