@@ -132,10 +132,10 @@ module HomeHelper
 				instructors = "None"
 			else
 				temp = 0
-				instructors = "#{instructors_array[0]["name"]}"
+				instructors = "#{instructors_array[0]['name']}"
 				while temp < num
 					temp++
-					instructors += ",#{instructors_array[temp]["name"]}"
+					instructors += ",#{instructors_array[temp]['name']}"
 				end
 			end
 		end

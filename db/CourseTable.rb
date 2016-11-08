@@ -13,7 +13,7 @@ class PostgresDirect
   # Create our test table (assumes it doesn't already exist)
   def createUserTable(tableName)
     @conn.exec("DROP TABLE IF EXISTS #{tableName}")
-    @conn.exec("CREATE TABLE #{tableName} (id SERIAL PRIMARY KEY NOT NULL, course_id character varying(255) NOT NULL, name character varying(255), slug character varying(255), course_site character varying(255), instructors character varying(255)) WITH (OIDS=FALSE);");
+    @conn.exec("CREATE TABLE #{tableName} (id SERIAL PRIMARY KEY NOT NULL, course_id character varying(255) NOT NULL, name character varying(255), slug character varying(255), course_site character varying(255), instructors character varying(255000)) WITH (OIDS=FALSE);");
   end
 
   # When we're done, we're going to drop our test table.
@@ -49,15 +49,15 @@ class PostgresDirect
 end
 
 # # Test
- def main
-   p = PostgresDirect.new()
-   p.connect
-   begin
-    p.createUserTable("catalog")
-    p.prepareInsertUserStatement("catalog")
-    p.addUser("test1", "test1", "test1", "test1")
-    p.addUser("test2", "test2", "test2", "test2")
-  end
-end
+#  def main
+#    p = PostgresDirect.new()
+#    p.connect
+#    begin
+#     p.createUserTable("catalog")
+#     p.prepareInsertUserStatement("catalog")
+#     p.addUser("test1", "test1", "test1", "test1")
+#     p.addUser("test2", "test2", "test2", "test2")
+#   end
+# end
 
-main
+# main
