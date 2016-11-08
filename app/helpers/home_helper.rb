@@ -98,6 +98,39 @@ module HomeHelper
 		end
 	end
 
+###########################33
+
+
+
+
+
+	def self.get_details(site, id=0, course={})
+		partners = "None"
+		course_url=""
+		if site== UDACITY
+			partners_array = course["affiliates"]
+			num = partners_array.length
+			if num == 0 
+				partners = "None"
+			else
+				# check for name
+				temp = 0
+				partners = "#{(partners_array[0]['name'])}"
+				while temp < num
+					temp++
+					#check for name
+					partners += ",#{{partners_array[temp]['affiliates']}}"
+				end
+			end		
+		end	
+		return partners
+	end	
+
+
+############################
+
+
+
 	def self.get_instructors(site, id=0, course={})
 		instructors = "None"
 		if site == COURSERA
@@ -118,7 +151,8 @@ module HomeHelper
 		  			instructors = "#{instructors_array[0]['fullName']}"
 		  			while temp + 1 < num
 		  				temp += 1
-		  				# puts "----<#{instructors_array[temp]}>----"
+		  				# check for full name
+		  				if 
 		  				instructors += ",#{instructors_array[temp]['fullName']}"
 		  			end
 		  		end 
@@ -135,6 +169,8 @@ module HomeHelper
 				instructors = "#{instructors_array[0]['name']}"
 				while temp < num
 					temp++
+					# check for full name
+
 					instructors += ",#{instructors_array[temp]['name']}"
 				end
 			end
