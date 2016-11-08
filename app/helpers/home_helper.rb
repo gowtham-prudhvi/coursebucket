@@ -2,7 +2,7 @@ require 'net/http'
 require 'json'
 
 module HomeHelper
-	MOOCS = Array.[]("coursera", "udacity")
+	MOOCS = Array.[]("udacity")
 
 	COURSERA = "coursera"
 	UDACITY = "udacity"
@@ -38,7 +38,9 @@ module HomeHelper
 			  		instructors = get_instructors(UDACITY,0,course)
 			  		partners,homepage = get_details(UDACITY, 0, course)
 			  	end
-			  	puts "------<#{instructors}>-----"
+			  	puts "------instructors=<#{instructors}>-----"
+			  	puts "------partners=<#{partners}>---"
+			  	puts "----homepage=<#{homepage}>---"
 			  	connection.addUser(course_id, name, slug, course_site, instructors, partners, homepage)
 		  	end
 
@@ -104,8 +106,8 @@ module HomeHelper
 		partners = "None"
 		course_url=""
 		if site== UDACITY
-			if course.key?(homepage)
-				course_url=coure["homepage"]
+			if course.key?("homepage")
+				course_url=course["homepage"]
 			end
 			partners_array = course["affiliates"]
 			num = partners_array.length
@@ -118,7 +120,7 @@ module HomeHelper
 				while temp < num
 					temp++
 					#check for name
-					partners += ",#{{partners_array[temp]['affiliates']}}"
+					partners += ",#{partners_array[temp]['affiliates']}"
 				end
 			end		
 		elsif site == COURSERA
@@ -150,7 +152,7 @@ module HomeHelper
 		  	end
 		end	
 
-		return course_url,partners
+		return partners,course_url
 	end	
 
 	def self.get_instructors(site, id=0, course={})
@@ -174,7 +176,7 @@ module HomeHelper
 		  			while temp + 1 < num
 		  				temp += 1
 		  				# check for full name
-		  				if partners_array[temp].key?(name)
+		  				if !(instructors_array[temp].nil?) and instructors_array[temp].key?("fullName")
 		  					instructors += ",#{instructors_array[temp]['fullName']}"	
 		  				end
 
@@ -190,12 +192,16 @@ module HomeHelper
 				instructors = "None"
 			else
 				temp = 0
-				instructors = "#{instructors_array[0]['name']}"
+				if !(instructors_array[temp].nil?) and instructors_array[temp].key?("fullName")
+					instructors = "#{instructors_array[0]['name']}"
+				end
 				while temp < num
-					temp++
+					temp += 1
 					# check for full name
-
-					instructors += ",#{instructors_array[temp]['name']}"
+					puts instructors_array[temp]
+					if !(instructors_array[temp].nil?) and instructors_array[temp].key?('name')
+						instructors += ",#{instructors_array[temp]['name']}"
+					end
 				end
 			end
 		end

@@ -25,7 +25,7 @@ class PostgresDirect
   # live and apparently cannot be removed, at least not very easily.  There is apparently a significant
   # performance improvement using prepared statements.
   def prepareInsertUserStatement(tableName)
-    @conn.prepare("insert_user", "insert into #{tableName} (course_id, name, slug, course_site, instructors, partners, homepage) values ($1, $2, $3, $4, $5, $6)")
+    @conn.prepare("insert_user", "insert into #{tableName} (course_id, name, slug, course_site, instructors, partners, homepage) values ($1, $2, $3, $4, $5, $6, $7)")
   end
 
   # Add a user with the prepared statement.
@@ -49,15 +49,15 @@ class PostgresDirect
 end
 
 # # Test
-#  def main
-#    p = PostgresDirect.new()
-#    p.connect
-#    begin
-#     p.createUserTable("catalog")
-#     p.prepareInsertUserStatement("catalog")
-#     p.addUser("test1", "test1", "test1", "test1")
-#     p.addUser("test2", "test2", "test2", "test2")
-#   end
-# end
+ def main
+   p = PostgresDirect.new()
+   p.connect
+   begin
+    p.createUserTable("catalog")
+    p.prepareInsertUserStatement("catalog")
+    # p.addUser("test1", "test1", "test1", "test1")
+    # p.addUser("test2", "test2", "test2", "test2")
+  end
+end
 
-# main
+main
