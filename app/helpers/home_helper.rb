@@ -9,7 +9,7 @@ module HomeHelper
 
 	UDACITY_URL = "https://www.udacity.com/public-api/v0/courses"
 	COURSERA_URL = "https://api.coursera.org/api/courses.v1?start=%d&limit=25"
-	COURSERA_COURSE_DETAILS_URL = "https://api.coursera.org/api/courses.v1/%s?includes=instructorIds,partnerIds&fields=instructorIds,previewLink,partnerIds,photoUrl,instructors.v1(firstName,lastName,suffix)"
+	COURSERA_COURSE_DETAILS_URL = "https://api.coursera.org/api/courses.v1/%s?includes=instructorIds,partnerIds&fields=instructorIds,previewLink,partnerIds,photoUrl,description,instructors.v1(firstName,lastName,suffix)"
 
 	def self.add_courses_to_db(course_site, connection)
 	  	i = 0
@@ -29,19 +29,26 @@ module HomeHelper
 			  	name = get_name(course)
 			  	slug = get_slug(course)
 
+
 			  	if course_site == COURSERA
 			  		# Coursera - get course details here
 			  		instructors = get_instructors(COURSERA, course_id)
 			  		partners,homepage = get_details(COURSERA, course_id)
+			  		url_photo = get_photo(COURSERA, course_id)
+			  		summary = get_summary(COURSERA, course_id)
 			  	elsif course_site == UDACITY
 			  		# Udacity - course details
 			  		instructors = get_instructors(UDACITY,0,course)
 			  		partners,homepage = get_details(UDACITY, 0, course)
+			  		url_photo = get_photo(UDACITY, 0, course)
+			  		summary = get_summary(UDACITY, 0, course)
 			  	end
 			  	puts "------instructors=<#{instructors}>-----"
 			  	puts "------partners=<#{partners}>---"
 			  	puts "----homepage=<#{homepage}>---"
-			  	connection.addUser(course_id, name, slug, course_site, instructors, partners, homepage, 0)
+			  	puts "photo*************=#{url_photo}"
+			  	puts "hiaaaaaaaaaaaaa#{summary}"
+			  	connection.addUser(course_id, name, slug, course_site, instructors, partners, homepage, 0, url_photo)
 		  	end
 
 		  	i += 25
@@ -101,6 +108,30 @@ module HomeHelper
 			return "No slug"
 		end
 	end
+  
+    ##################  Breif Summary
+    def self.get_summary(site, id=0, course={})
+    	summary = ""
+    	if site == UDACITY
+    		if course.key?("short_summary")
+    			summary = course["short_summary"]
+    		end
+
+    	elsif site == COURSERA
+    		details_url = COURSERA_COURSE_DETAILS_URL % [id]
+			uri = URI(details_url)
+			response = Net::HTTP.get(uri)
+		  	json = JSON.parse(response)
+		  	details = json["elements"] 
+    		if json["elements"][0].key?("description")
+				summary= json['elements'][0]['description']
+			end				
+		end
+		return summary
+	end	
+
+
+
    ################### Photo URl 
 	def self.get_photo(site, id=0, course={})
 		photo_url=""
@@ -108,7 +139,6 @@ module HomeHelper
 			if course.key?("image")
 				photo_url = course["image"]
 			end	
-
 		elsif site == COURSERA
 			details_url = COURSERA_COURSE_DETAILS_URL % [id]
 			uri = URI(details_url)
@@ -117,7 +147,7 @@ module HomeHelper
 		  	details = json["elements"] 
 			if json["elements"][0].key?("photoUrl")
 				puts json["elements"][0]["photoUrl"]
-				photo_url= "json['elements'][0]['photoUrl']"
+				photo_url= json['elements'][0]['photoUrl']
 			end	
 		end	
 		return photo_url
