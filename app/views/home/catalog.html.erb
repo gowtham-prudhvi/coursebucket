@@ -1,10 +1,83 @@
-<h1>CATALOG</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Catalog</title>
+    <style>
+    	/* Popup container */
+    	.popup {
+    	    position: relative;
+    	    display: inline-block;
+    	    cursor: pointer;
+    	}
 
-<button type="button"><a href="/home/search">SEARCH</a></button>
-<% @product.each do |product| %>
-  <h4><%= link_to product.name, "course_details?url=#{product.homepage}&id=#{product.id}&counter=#{product.counter}}" %> by <%= product.instructors %> in <%= product.course_site %></h4>
-<% end %>
-<hr />
-<%= paginate @product %>
-<%= page_entries_info @product %>
+    	/* The actual popup (appears on top) */
+    	.popup .popuptext {
+    	    visibility: hidden;
+    	    width: 360px;
+    	    background-color: #555;
+    	    color: #fff;
+    	    text-align: center;
+    	    border-radius: 6px;
+    	    padding: 8px 0;
+    	    position: absolute;
+    	    z-index: 1;
+    	    top: 125%;
+    	    left: 50%;
+    	    margin-left: -80px;
+    	}
+
+    	/* Popup arrow */
+    	.popup .popuptext::after {
+    	    content: "";
+    	    position: absolute;
+    	    bottom: 100%;
+    	    left: 50%;
+    	    margin-left: -5px;
+    	    border-width: 5px;
+    	    border-style: solid;
+    	    border-color: #555 transparent transparent transparent;
+    	}
+
+    	/* Toggle this class when clicking on the popup container (hide and show the popup) */
+    	.popup .show {
+    	    visibility: visible;
+    	    -webkit-animation: fadeIn 1s;
+    	    animation: fadeIn 1s
+    	}
+
+    	/* Add animation (fade in the popup) */
+    	@-webkit-keyframes fadeIn {
+    	    from {opacity: 0;} 
+    	    to {opacity: 1;}
+    	}
+
+    	@keyframes fadeIn {
+    	    from {opacity: 0;}
+    	    to {opacity:1 ;}
+    	}
+    </style>
+	<script>
+	// When the user clicks on <div>, open the popup
+	function myFunction() {
+	    var popup = document.getElementById('myPopup');
+	    popup.classList.toggle('show');
+	}
+	</script>
+</head>
+
+<body>
+	<h1>CATALOG</h1>
+
+	<button type="button"><a href="/home/search">SEARCH</a></button>
+	<% @product.each do |product| %>
+	  <h4><%= link_to product.name, "course_details?url=#{product.homepage}&id=#{product.id}&counter=#{product.counter}}" %> by <%= product.instructors %> in <%= product.course_site %>
+	  	<div class="popup" onclick="myFunction()">Description
+	  		<span class="popuptext" id="myPopup">hello</span>
+	  	</div>
+	  </h4>
+	<% end %>
+	<hr />
+	<%= paginate @product %>
+	<%= page_entries_info @product %>
+</body>
 
