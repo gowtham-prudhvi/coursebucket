@@ -75,7 +75,7 @@ module HomeHelper
 
 	def self.get_course_id(dicti)
 		if dicti.key?("id")
-			return dicti["id"]
+			return dicti["id"]                  
 		elsif dicti.key?("key")
 			return dicti["key"]
 		else
@@ -117,8 +117,8 @@ module HomeHelper
 				temp = 0
 				while temp < num
 					#check for name
-					if !(partners_array[temp].nil?) and partners_array[temp].key?("affiliates")
-						partners += ",#{partners_array[temp]['affiliates']}"
+					if !(partners_array[temp].nil?) and partners_array[temp].key?("name")
+						partners += ",#{partners_array[temp]['name']}"
 					end
 					temp += 1
 				end

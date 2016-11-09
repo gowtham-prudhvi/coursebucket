@@ -75,7 +75,7 @@ curr_search_field=params[:tags]
 	end
   
   def catalog
-    byebug
+    #byebug
    @product = Catalog.order('name').page(params[:page]).per(10)
   end
 
