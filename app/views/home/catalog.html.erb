@@ -2,6 +2,10 @@
 <html>
 <head>
     <title>Catalog</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+      <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+      <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+      <link rel="stylesheet" href="/resources/demos/style.css">
     <style>
     	/* Popup container */
     	.popup {
@@ -23,13 +27,13 @@
     	    z-index: 1;
     	    top: 125%;
     	    left: 50%;
-    	    margin-left: -80px;
+    	    margin-left: 0px;
     	}
 
     	/* Popup arrow */
     	.popup .popuptext::after {
     	    content: "";
-    	    position: relative;
+    	    position: absolute;
     	    bottom: 100%;
     	    left: 50%;
     	    margin-left: -5px;
@@ -67,14 +71,22 @@
 
 <body>
 	<h1>CATALOG</h1>
+	<button type="button" style="margin-bottom: 20px;"><a href="/home/search">SEARCH</a></button>
 
-	<button type="button"><a href="/home/search">SEARCH</a></button>
 	<% @product.each do |product| %>
-	  <h4><%= link_to product.name, "course_details?url=#{product.homepage}&id=#{product.id}&counter=#{product.counter}" %> by <%= product.instructors %> in <%= product.course_site %>
-	  	<div class="popup" onclick="myFunction(<%= product.id %>)"> <button type="button">Description</button>
-	  		<span class="popuptext" id=<%= product.id %>><%= product.summary %></span>
-	  	</div>
-	  </h4>
+		<div class="row">
+		  	<!-- <div  class="col-sm-9"> -->
+		  <img src="<%=product.url_photo%>" style="float:left;width:60px;height=70px;margin-right:10px;">
+		  		<h3><%= link_to product.name, "course_details?url=#{product.homepage}&id=#{product.id}&counter=#{product.counter}" %></h3>
+		  	<!-- </div> -->
+	  		<div class="col-sm-9" style="margin-bottom: 30px;">
+	  			 by <%= product.instructors %> in <%= product.course_site %>
+		  		<div class="popup" onclick="myFunction(<%= product.id %>)" style="margin-left: 20px;"> Description
+		  				<span class="popuptext" id=<%= product.id %>><%= product.summary %></span>
+		  		</div>
+	  		</div>
+		  <br>
+		</div>
 	<% end %>
 	<hr />
 	<%= paginate @product %>
