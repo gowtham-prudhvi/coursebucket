@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161108124927) do
+ActiveRecord::Schema.define(version: 20161109121554) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,21 +23,20 @@ ActiveRecord::Schema.define(version: 20161108124927) do
   end
 
   create_table "catalog", force: :cascade do |t|
-    t.string  "course_id",   limit: 255,                null: false
-    t.string  "name",        limit: 255
-    t.string  "slug",        limit: 255
-    t.string  "course_site", limit: 255
-    t.string  "instructors", limit: 255000
-    t.string  "partners",    limit: 255000
-    t.string  "homepage",    limit: 255000
-    t.integer "counter",                    default: 0, null: false
+    t.string "course_id",   limit: 255,    null: false
+    t.string "name",        limit: 255
+    t.string "slug",        limit: 255
+    t.string "course_site", limit: 255
+    t.string "instructors", limit: 255000
+    t.string "partners",    limit: 255000
+    t.string "homepage",    limit: 255000
   end
-
 
   create_table "catalogs", id: :string, limit: 255, force: :cascade do |t|
     t.string "name",        limit: 255
     t.string "slug",        limit: 255
     t.string "course_site", limit: 255
+  end
 
   create_table "deviseusers", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -71,6 +70,11 @@ ActiveRecord::Schema.define(version: 20161108124927) do
   create_table "user_recent_search", force: :cascade do |t|
     t.integer "user_id",      null: false
     t.string  "search_field", null: false
+  end
+
+  create_table "user_recent_searches", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "usermails", force: :cascade do |t|

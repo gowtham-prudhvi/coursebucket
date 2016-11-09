@@ -159,24 +159,27 @@ a {
     <input type="submit" value="go" id="submit">
 </form> 
  
+ <% if !params[:tags] %>
 <h2> Recommended courses </h2>
   <% @recommend.each do |product| %>
     <h4><%= product.name %></h4>
     
    <% end %>
-
+<% end %>
 
 
 </body>
 
-
-<h1> results </h1>
+<% if params[:tags] %>
+<h1> results  for <%= params[:tags] =%></h1>
   <% @product.each do |product| %>
     <h4><%= link_to product.name, "/home/course_details?id=#{product.course_id}&site=#{product.course_site}" %> in <%= product.course_site %></h4>
     
    <% end %>
-  
+
+   <%= paginate @product1.hits %>
+
+  <% end %>
 <hr />
   
-<%= paginate @product1.hits %>
 

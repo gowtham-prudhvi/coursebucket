@@ -11,22 +11,23 @@ class HomeController < ApplicationController
     if params[:tags]
 
       #when searched in home search
-curr_search_field=params[:tags]
-
- id=current_deviseuser["id"]   
-       @recommend =Catalog.search do
-       any do
-        fulltext("asaaasfsfddfsfds")
-        end
+     curr_search_field=params[:tags]
+    # id=current_deviseuser["id"]   
+    # @recommend =Catalog.search do
+    # any do
+    #   fulltext("asaaasfsfddfsfds")
+    # end
         
-       order_by(:score, :desc)
-     end
-     @recommend=@recommend.results
+    # order_by(:score, :desc)
+    # end
+    # @recommend=@recommend.results
 
 
-  id=current_deviseuser["id"]
-
-  execute_statement("insert into user_recent_search(user_id,search_field) values(#{id},'#{curr_search_field}')")
+    id=current_deviseuser["id"]
+    object = UserRecentSearch.new(:user_id => id, :search_field => curr_search_field)
+    object.save
+    # byebug
+    # execute_statement("insert into user_recent_search(user_id,search_field) values(#{id},'#{curr_search_field}')")
     @product =Catalog.search do
       any do
       fulltext(params[:tags])
@@ -39,7 +40,7 @@ curr_search_field=params[:tags]
     @product1=@product
     @product=@product.results
 
-    @result=execute_statement("select name from catalog")
+    @result=  Catalog.order('name')
     @chart_values = '['
     @result.each do |m|
       value=m["name"].downcase.gsub(/[^a-z0-9\s]/i, '')
@@ -69,17 +70,17 @@ curr_search_field=params[:tags]
      end
      @recommend=@recommend.results
       # byebug
-      @product =Catalog.search do
-      keywords('asaasss')
-      paginate(:page => params[:page] || 1, :per_page => 10)
-      end
+    #   @product =Catalog.search do
+    #   keywords('asaasss')
+    #   paginate(:page => params[:page] || 1, :per_page => 10)
+    #   end
 
 
-    @product1=@product
-    @product=@product.results
+    # @product1=@product
+    # @product=@product.results
 
     # byebug
-    @result=execute_statement("select name from catalog")
+    @result=Catalog.order('name')
     @chart_values = '['
     @result.each do |m|
       value=m["name"].downcase.gsub(/[^a-z0-9\s]/i, '')
