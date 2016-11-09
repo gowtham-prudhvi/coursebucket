@@ -2,7 +2,7 @@ require 'net/http'
 require 'json'
 
 module HomeHelper
-	MOOCS = Array.[]("udacity")
+	MOOCS = Array.[]("coursera","udacity")
 
 	COURSERA = "coursera"
 	UDACITY = "udacity"
