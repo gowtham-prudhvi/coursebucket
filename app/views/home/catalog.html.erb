@@ -5,7 +5,7 @@
     <style>
     	/* Popup container */
     	.popup {
-    	    position: relative;
+    	    position: fixed;
     	    display: inline-block;
     	    cursor: pointer;
     	}
@@ -29,7 +29,7 @@
     	/* Popup arrow */
     	.popup .popuptext::after {
     	    content: "";
-    	    position: absolute;
+    	    position: relative;
     	    bottom: 100%;
     	    left: 50%;
     	    margin-left: -5px;
@@ -58,8 +58,8 @@
     </style>
 	<script>
 	// When the user clicks on <div>, open the popup
-	function myFunction() {
-	    var popup = document.getElementById('myPopup');
+	function myFunction(idd) {
+	    var popup = document.getElementById(idd);
 	    popup.classList.toggle('show');
 	}
 	</script>
@@ -70,9 +70,9 @@
 
 	<button type="button"><a href="/home/search">SEARCH</a></button>
 	<% @product.each do |product| %>
-	  <h4><%= link_to product.name, "course_details?url=#{product.homepage}&id=#{product.id}&counter=#{product.counter}}" %> by <%= product.instructors %> in <%= product.course_site %>
-	  	<div class="popup" onclick="myFunction()">Description
-	  		<span class="popuptext" id="myPopup">hello</span>
+	  <h4><%= link_to product.name, "course_details?url=#{product.homepage}&id=#{product.id}&counter=#{product.counter}" %> by <%= product.instructors %> in <%= product.course_site %>
+	  	<div class="popup" onclick="myFunction(<%= product.id %>)"> <button type="button">Description</button>
+	  		<span class="popuptext" id=<%= product.id %>><%= product.summary %></span>
 	  	</div>
 	  </h4>
 	<% end %>

@@ -31,6 +31,8 @@ ActiveRecord::Schema.define(version: 20161109121554) do
     t.string  "partners",    limit: 255000
     t.string  "homepage",    limit: 255000
     t.integer "counter",                    default: 0, null: false
+    t.string  "url_photo",   limit: 255000
+    t.string  "summary",     limit: 255000
   end
 
   create_table "catalogs", id: :string, limit: 255, force: :cascade do |t|
