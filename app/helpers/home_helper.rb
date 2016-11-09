@@ -9,7 +9,7 @@ module HomeHelper
 
 	UDACITY_URL = "https://www.udacity.com/public-api/v0/courses"
 	COURSERA_URL = "https://api.coursera.org/api/courses.v1?start=%d&limit=25"
-	COURSERA_COURSE_DETAILS_URL = "https://api.coursera.org/api/courses.v1/%s?includes=instructorIds,partnerIds&fields=instructorIds,previewLink,partnerIds,photoUrl,instructors.v1(firstName,lastName,suffix)"
+	COURSERA_COURSE_DETAILS_URL = "https://api.coursera.org/api/courses.v1/%s?includes=instructorIds,partnerIds&fields=instructorIds,previewLink,partnerIds,photoUrl,description,instructors.v1(firstName,lastName,suffix)"
 
 	def self.add_courses_to_db(course_site, connection)
 	  	i = 0
@@ -104,6 +104,31 @@ module HomeHelper
 			return "No slug"
 		end
 	end
+  
+    ##################  Breif Summary
+    def self.get_summary(site, id=0, course={})
+    	summary = ""
+    	if site == UDACITY
+    		if course.key?("short_summary")
+    			summary = course["short_summary"]
+    		end
+
+    	elsif site == COURSERA
+    		details_url = COURSERA_COURSE_DETAILS_URL % [id]
+			uri = URI(details_url)
+			response = Net::HTTP.get(uri)
+		  	json = JSON.parse(response)
+		  	details = json["elements"] 
+    		if json["elements"][0].key?("description")
+				puts json["elements"][0]["description"]
+				summary= json['elements'][0]['description']
+			end				
+		end
+		return summary
+	end	
+
+
+
    ################### Photo URl 
 	def self.get_photo(site, id=0, course={})
 		photo_url=""
