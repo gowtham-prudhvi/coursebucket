@@ -2,7 +2,7 @@ require 'net/http'
 require 'json'
 
 require './app/helpers/home_helper.rb'
-#require './db/CourseTable.rb'
+require './db/CourseTable.rb'
 
 class HomeController < ApplicationController
   before_action :authenticate_deviseuser!
@@ -12,11 +12,21 @@ class HomeController < ApplicationController
 
       #when searched in home search
 curr_search_field=params[:tags]
-#@result=execute_statement("select search_field from catalog order by updated_at limit 10")
+
+ id=current_deviseuser["id"]   
+       @recommend =Catalog.search do
+       any do
+        fulltext("asaaasfsfddfsfds")
+        end
+        
+       order_by(:score, :desc)
+     end
+     @recommend=@recommend.results
+
+
   id=current_deviseuser["id"]
+
   execute_statement("insert into user_recent_search(user_id,search_field) values(#{id},'#{curr_search_field}')")
-  #update field of update last one
-  #we will leave this for now will store all searches of user
     @product =Catalog.search do
       any do
       fulltext(params[:tags])
@@ -40,20 +50,25 @@ curr_search_field=params[:tags]
 
     else
       id=current_deviseuser["id"]   
-      @result=execute_statement("select search_field from user_recent_search where user_id=#{id} ORDER BY id DESC LIMIT 10")
-       @recommend =Catalog.search do
+      @result=execute_statement("select search_field from user_recent_search where user_id=#{id} ORDER BY id DESC LIMIT 5")
+      first=@result[0]["search_field"]
+      second=@result[1]["search_field"]
+      third=@result[2]["search_field"]
+      fourth=@result[3]["search_field"]
+      fifth=@result[4]["search_field"]
+      @recommend =Catalog.search do
        any do
-      # fulltext("machine")
-        if @result.nfields ==1     
-        fulltext(@result[0]["search_field"])
+        fulltext(first)
+        fulltext(second)
+        fulltext(third)
+        fulltext(fourth)
+        fulltext(fifth)
         end
-    #   # @result.each do |product|
-        end
-    #   end
+        
        order_by(:score, :desc)
-      # paginate(:page => params[:page] || 1, :per_page => 10)
      end
-      byebug
+     @recommend=@recommend.results
+      # byebug
       @product =Catalog.search do
       keywords('asaasss')
       paginate(:page => params[:page] || 1, :per_page => 10)
@@ -63,7 +78,7 @@ curr_search_field=params[:tags]
     @product1=@product
     @product=@product.results
 
-
+    # byebug
     @result=execute_statement("select name from catalog")
     @chart_values = '['
     @result.each do |m|
@@ -75,7 +90,6 @@ curr_search_field=params[:tags]
 	end
   
   def catalog
-    byebug
    @product = Catalog.order('name').page(params[:page]).per(10)
   end
 
