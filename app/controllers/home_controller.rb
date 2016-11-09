@@ -91,7 +91,7 @@ class HomeController < ApplicationController
 	end
   
   def catalog
-   @product = Catalog.order('name').page(params[:page]).per(10)
+   @product = Catalog.order("counter DESC").page(params[:page]).per(10)
   end
 
   def course_details
