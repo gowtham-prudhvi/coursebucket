@@ -2,7 +2,7 @@ require 'net/http'
 require 'json'
 
 require './app/helpers/home_helper.rb'
-#require './db/CourseTable.rb'
+require './db/CourseTable.rb'
 
 class HomeController < ApplicationController
   before_action :authenticate_deviseuser!
