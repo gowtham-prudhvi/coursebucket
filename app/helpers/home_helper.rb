@@ -2,14 +2,14 @@ require 'net/http'
 require 'json'
 
 module HomeHelper
-	MOOCS = Array.[]("coursera", "udacity")
+	MOOCS = Array.[]("coursera","udacity")
 
 	COURSERA = "coursera"
 	UDACITY = "udacity"
 
 	UDACITY_URL = "https://www.udacity.com/public-api/v0/courses"
 	COURSERA_URL = "https://api.coursera.org/api/courses.v1?start=%d&limit=25"
-	COURSERA_COURSE_DETAILS_URL = "https://api.coursera.org/api/courses.v1/%s?includes=instructorIds,partnerIds&fields=instructorIds&dfields=instructorIds,partnerIds,instructors.v1(firstName,lastName,suffix)"
+	COURSERA_COURSE_DETAILS_URL = "https://api.coursera.org/api/courses.v1/%s?includes=instructorIds,partnerIds&fields=instructorIds,previewLink,partnerIds,instructors.v1(firstName,lastName,suffix)"
 
 	def self.add_courses_to_db(course_site, connection)
 	  	i = 0
@@ -38,7 +38,9 @@ module HomeHelper
 			  		instructors = get_instructors(UDACITY,0,course)
 			  		partners,homepage = get_details(UDACITY, 0, course)
 			  	end
-			  	puts "------<#{instructors}>-----"
+			  	puts "------instructors=<#{instructors}>-----"
+			  	puts "------partners=<#{partners}>---"
+			  	puts "----homepage=<#{homepage}>---"
 			  	connection.addUser(course_id, name, slug, course_site, instructors, partners, homepage)
 		  	end
 
@@ -104,30 +106,35 @@ module HomeHelper
 		partners = "None"
 		course_url=""
 		if site== UDACITY
-			if course.key?(homepage)
-				course_url=coure["homepage"]
+			if course.key?("homepage")
+				course_url=course["homepage"]
 			end
 			partners_array = course["affiliates"]
 			num = partners_array.length
 			if num == 0 
 				partners = "None"
 			else
-				# check for name
 				temp = 0
-				partners = "#{(partners_array[0]['name'])}"
 				while temp < num
-					temp++
 					#check for name
-					partners += ",#{{partners_array[temp]['affiliates']}}"
+					if !(partners_array[temp].nil?) and partners_array[temp].key?("affiliates")
+						partners += ",#{partners_array[temp]['affiliates']}"
+					end
+					temp += 1
 				end
 			end		
 		elsif site == COURSERA
-			course_url="https://api.coursera.org/api/courses.v1/%s" % [id]
 			details_url = COURSERA_COURSE_DETAILS_URL % [id]
 			uri = URI(details_url)
 			response = Net::HTTP.get(uri)
 		  	json = JSON.parse(response)
 		  	details = json["linked"]
+			
+			if json["elements"][0].key?("slug")
+				puts json["elements"][0]["slug"]
+				course_url="https://www.coursera.org/learn/#{json['elements'][0]['slug']}"
+			end
+		  	
 		  	if details.key?("partners.v1")
 		  		# instructor
 		  		partners_array = details["partners.v1"]
@@ -136,13 +143,12 @@ module HomeHelper
 		  			partners = "None"
 		  		else
 		  			temp = 0
-		  			partners = "#{partners_array[0]['name']}"
-		  			while temp + 1 < num
-		  				temp += 1
+		  			while temp < num
 		  				# check for full name
-		  				if partners_array[temp].key?(name)
+		  				if !(partners_array[temp].nil?) and partners_array[temp].key?("name")
 		  					partners += ",#{partners_array[temp]['name']}" 
 		  				end
+		  				temp += 1
 		  			end
 		  		end 
 		  	else
@@ -150,7 +156,7 @@ module HomeHelper
 		  	end
 		end	
 
-		return course_url,partners
+		return partners,course_url
 	end	
 
 	def self.get_instructors(site, id=0, course={})
@@ -170,14 +176,11 @@ module HomeHelper
 		  			instructors = "None"
 		  		else
 		  			temp = 0
-		  			instructors = "#{instructors_array[0]['fullName']}"
-		  			while temp + 1 < num
-		  				temp += 1
-		  				# check for full name
-		  				if partners_array[temp].key?(name)
+		  			while temp < num
+		  				if !(instructors_array[temp].nil?) and instructors_array[temp].key?("fullName")
 		  					instructors += ",#{instructors_array[temp]['fullName']}"	
 		  				end
-
+		  				temp += 1
 		  			end
 		  		end 
 		  	else
@@ -190,12 +193,12 @@ module HomeHelper
 				instructors = "None"
 			else
 				temp = 0
-				instructors = "#{instructors_array[0]['name']}"
 				while temp < num
-					temp++
-					# check for full name
-
-					instructors += ",#{instructors_array[temp]['name']}"
+					puts instructors_array[temp]
+					if !(instructors_array[temp].nil?) and instructors_array[temp].key?('name')
+						instructors += ",#{instructors_array[temp]['name']}"
+					end
+					temp += 1
 				end
 			end
 		end
