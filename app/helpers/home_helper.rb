@@ -41,7 +41,7 @@ module HomeHelper
 			  	puts "------instructors=<#{instructors}>-----"
 			  	puts "------partners=<#{partners}>---"
 			  	puts "----homepage=<#{homepage}>---"
-			  	connection.addUser(course_id, name, slug, course_site, instructors, partners, homepage)
+			  	connection.addUser(course_id, name, slug, course_site, instructors, partners, homepage, 0)
 		  	end
 
 		  	i += 25

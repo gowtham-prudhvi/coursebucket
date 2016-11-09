@@ -1,9 +1,8 @@
-<h1>Home#catalog</h1>
-<p>Find me in app/views/home/catalog.html.erb</p>
+<h1>CATALOG</h1>
 
 <button type="button"><a href="/home/search">SEARCH</a></button>
 <% @product.each do |product| %>
-  <h4><%= link_to product.name, "/home/course_details?id=#{product.course_id}&site=#{product.course_site}" %> in <%= product.course_site %></h4>
+  <h4><%= link_to product.name, "course_details?url=#{product.homepage}&id=#{product.id}&counter=#{product.counter}}" %> by <%= product.instructors %> in <%= product.course_site %></h4>
 <% end %>
 <hr />
 <%= paginate @product %>
