@@ -49,7 +49,6 @@ class PostgresDirect
 end
 
 # # Test
- 
 #  def main
 #    p = PostgresDirect.new()
 #    p.connect

@@ -75,7 +75,7 @@ module HomeHelper
 
 	def self.get_course_id(dicti)
 		if dicti.key?("id")
-			return dicti["id"]
+			return dicti["id"]                  
 		elsif dicti.key?("key")
 			return dicti["key"]
 		else
@@ -115,12 +115,14 @@ module HomeHelper
 				partners = "None"
 			else
 				temp = 0
-				while temp < num
-					#check for name
-					if !(partners_array[temp].nil?) and partners_array[temp].key?("affiliates")
-						partners += ",#{partners_array[temp]['affiliates']}"
-					end
+				if !(partners_array[temp].nil?) and partners_array[temp].key?("name")
+					partners = "#{partners_array[temp]['name']}"
+				end
+				while temp + 1 < num
 					temp += 1
+					if !(partners_array[temp].nil?) and partners_array[temp].key?("name")
+						partners += ",#{partners_array[temp]['name']}"
+					end
 				end
 			end		
 		elsif site == COURSERA
@@ -136,19 +138,20 @@ module HomeHelper
 			end
 		  	
 		  	if details.key?("partners.v1")
-		  		# instructor
 		  		partners_array = details["partners.v1"]
 		  		num = partners_array.length
 		  		if num == 0
 		  			partners = "None"
 		  		else
 		  			temp = 0
-		  			while temp < num
-		  				# check for full name
+		  			if !(partners_array[temp].nil?) and partners_array[temp].key?("name")
+		  				partners = "#{partners_array[temp]['name']}" 
+		  			end
+		  			while temp + 1 < num
+		  				temp += 1
 		  				if !(partners_array[temp].nil?) and partners_array[temp].key?("name")
 		  					partners += ",#{partners_array[temp]['name']}" 
 		  				end
-		  				temp += 1
 		  			end
 		  		end 
 		  	else
@@ -176,11 +179,14 @@ module HomeHelper
 		  			instructors = "None"
 		  		else
 		  			temp = 0
-		  			while temp < num
+		  			if !(instructors_array[temp].nil?) and instructors_array[temp].key?("fullName")
+		  				instructors = "#{instructors_array[temp]['fullName']}"	
+		  			end
+		  			while temp + 1 < num
+		  				temp += 1
 		  				if !(instructors_array[temp].nil?) and instructors_array[temp].key?("fullName")
 		  					instructors += ",#{instructors_array[temp]['fullName']}"	
 		  				end
-		  				temp += 1
 		  			end
 		  		end 
 		  	else
@@ -193,12 +199,14 @@ module HomeHelper
 				instructors = "None"
 			else
 				temp = 0
-				while temp < num
-					puts instructors_array[temp]
+				if !(instructors_array[temp].nil?) and instructors_array[temp].key?('name')
+					instructors = "#{instructors_array[temp]['name']}"
+				end
+				while temp + 1 < num
+					temp += 1
 					if !(instructors_array[temp].nil?) and instructors_array[temp].key?('name')
 						instructors += ",#{instructors_array[temp]['name']}"
 					end
-					temp += 1
 				end
 			end
 		end

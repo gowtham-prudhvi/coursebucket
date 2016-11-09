@@ -1,11 +1,9 @@
-<h1>Home#catalog</h1>
-<p>Find me in app/views/home/catalog.html.erb</p>
-<input type="submit"value="Find this course" style="float: right" />
-<div style="overflow: hidden; padding-right: .5em;">
-   <input type="text" style="width: 100%;" />
-</div>​
+<h1>CATALOG</h1>
+
+<div id="button"><a href="/home/search">SEARCH</a></div>
+
 <% @product.each do |product| %>
-  <h4><%= link_to product.name, "/home/course_details?id=#{product.course_id}&site=#{product.course_site}" %> in <%= product.course_site %></h4>
+  <h4><%= link_to product.name, "#{product.homepage}" %> by <%= product.instructors %> in <%= product.course_site %></h4>
 <% end %>
 <hr />
 <%= paginate @product %>

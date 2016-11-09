@@ -32,11 +32,11 @@ ActiveRecord::Schema.define(version: 20161108124927) do
     t.string "homepage",    limit: 255000
   end
 
+
   create_table "catalogs", id: :string, limit: 255, force: :cascade do |t|
     t.string "name",        limit: 255
     t.string "slug",        limit: 255
     t.string "course_site", limit: 255
-  end
 
   create_table "deviseusers", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
