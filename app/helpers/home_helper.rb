@@ -2,7 +2,7 @@ require 'net/http'
 require 'json'
 
 module HomeHelper
-	MOOCS = Array.[]("udacity")
+	MOOCS = Array.[]("coursera","udacity")
 
 	COURSERA = "coursera"
 	UDACITY = "udacity"
@@ -33,15 +33,18 @@ module HomeHelper
 			  		# Coursera - get course details here
 			  		instructors = get_instructors(COURSERA, course_id)
 			  		partners,homepage = get_details(COURSERA, course_id)
+			  		url_photo = get_photo(COURSERA, course_id)
 			  	elsif course_site == UDACITY
 			  		# Udacity - course details
 			  		instructors = get_instructors(UDACITY,0,course)
 			  		partners,homepage = get_details(UDACITY, 0, course)
+			  		url_photo = get_photo(UDACITY, 0, course)
 			  	end
 			  	puts "------instructors=<#{instructors}>-----"
 			  	puts "------partners=<#{partners}>---"
 			  	puts "----homepage=<#{homepage}>---"
-			  	connection.addUser(course_id, name, slug, course_site, instructors, partners, homepage, 0)
+			  	puts "photo*************=#{url_photo}"
+			  	connection.addUser(course_id, name, slug, course_site, instructors, partners, homepage, 0, url_photo)
 		  	end
 
 		  	i += 25
@@ -108,7 +111,6 @@ module HomeHelper
 			if course.key?("image")
 				photo_url = course["image"]
 			end	
-
 		elsif site == COURSERA
 			details_url = COURSERA_COURSE_DETAILS_URL % [id]
 			uri = URI(details_url)
@@ -117,7 +119,7 @@ module HomeHelper
 		  	details = json["elements"] 
 			if json["elements"][0].key?("photoUrl")
 				puts json["elements"][0]["photoUrl"]
-				photo_url= "json['elements'][0]['photoUrl']"
+				photo_url= json['elements'][0]['photoUrl']
 			end	
 		end	
 		return photo_url
