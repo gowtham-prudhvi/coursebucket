@@ -1,9 +1,8 @@
 <h1>CATALOG</h1>
 
-<div id="button"><a href="/home/search">SEARCH</a></div>
-
+<button type="button"><a href="/home/search">SEARCH</a></button>
 <% @product.each do |product| %>
-  <h4><%= link_to product.name, "#{product.homepage}" %> by <%= product.instructors %> in <%= product.course_site %></h4>
+  <h4><%= link_to product.name, "course_details?url=#{product.homepage}&id=#{product.id}&counter=#{product.counter}}" %> by <%= product.instructors %> in <%= product.course_site %></h4>
 <% end %>
 <hr />
 <%= paginate @product %>

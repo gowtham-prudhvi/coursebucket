@@ -9,7 +9,7 @@ module HomeHelper
 
 	UDACITY_URL = "https://www.udacity.com/public-api/v0/courses"
 	COURSERA_URL = "https://api.coursera.org/api/courses.v1?start=%d&limit=25"
-	COURSERA_COURSE_DETAILS_URL = "https://api.coursera.org/api/courses.v1/%s?includes=instructorIds,partnerIds&fields=instructorIds,previewLink,partnerIds,instructors.v1(firstName,lastName,suffix)"
+	COURSERA_COURSE_DETAILS_URL = "https://api.coursera.org/api/courses.v1/%s?includes=instructorIds,partnerIds&fields=instructorIds,previewLink,partnerIds,photoUrl,instructors.v1(firstName,lastName,suffix)"
 
 	def self.add_courses_to_db(course_site, connection)
 	  	i = 0
@@ -41,7 +41,7 @@ module HomeHelper
 			  	puts "------instructors=<#{instructors}>-----"
 			  	puts "------partners=<#{partners}>---"
 			  	puts "----homepage=<#{homepage}>---"
-			  	connection.addUser(course_id, name, slug, course_site, instructors, partners, homepage)
+			  	connection.addUser(course_id, name, slug, course_site, instructors, partners, homepage, 0)
 		  	end
 
 		  	i += 25
@@ -101,14 +101,37 @@ module HomeHelper
 			return "No slug"
 		end
 	end
+   ################### Photo URl 
+	def self.get_photo(site, id=0, course={})
+		photo_url=""
+		if site == UDACITY
+			if course.key?("image")
+				photo_url = course["image"]
+			end	
+
+		elsif site == COURSERA
+			details_url = COURSERA_COURSE_DETAILS_URL % [id]
+			uri = URI(details_url)
+			response = Net::HTTP.get(uri)
+		  	json = JSON.parse(response)
+		  	details = json["elements"] 
+			if json["elements"][0].key?("photoUrl")
+				puts json["elements"][0]["photoUrl"]
+				photo_url= "json['elements'][0]['photoUrl']"
+			end	
+		end	
+		return photo_url
+	end	
 
 	def self.get_details(site, id=0, course={})
 		partners = "None"
 		course_url=""
 		if site== UDACITY
+			################ Course URL udacity
 			if course.key?("homepage")
 				course_url=course["homepage"]
 			end
+			################ Affiliates or partners udacity
 			partners_array = course["affiliates"]
 			num = partners_array.length
 			if num == 0 
@@ -131,12 +154,12 @@ module HomeHelper
 			response = Net::HTTP.get(uri)
 		  	json = JSON.parse(response)
 		  	details = json["linked"]
-			
+			################## Course URL coursera
 			if json["elements"][0].key?("slug")
 				puts json["elements"][0]["slug"]
 				course_url="https://www.coursera.org/learn/#{json['elements'][0]['slug']}"
 			end
-		  	
+		  	################## Partners Coursera
 		  	if details.key?("partners.v1")
 		  		partners_array = details["partners.v1"]
 		  		num = partners_array.length

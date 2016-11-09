@@ -94,11 +94,14 @@ curr_search_field=params[:tags]
   end
 
   def course_details
+   @url = params[:url]
    @id = params[:id]
-   @site=params[:site]
-   # TODO:
-   details = HomeHelper.get_course_details(site, id)
-     
+   @counter = params[:counter].to_i
+   @counter+=1
+   execute_statement("update catalog  set counter=#{@counter} where id=#{@id}")
+
+
+   redirect_to @url
   end
   
   def catalog_update

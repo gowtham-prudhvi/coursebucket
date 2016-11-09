@@ -23,13 +23,14 @@ ActiveRecord::Schema.define(version: 20161108124927) do
   end
 
   create_table "catalog", force: :cascade do |t|
-    t.string "course_id",   limit: 255,    null: false
-    t.string "name",        limit: 255
-    t.string "slug",        limit: 255
-    t.string "course_site", limit: 255
-    t.string "instructors", limit: 255000
-    t.string "partners",    limit: 255000
-    t.string "homepage",    limit: 255000
+    t.string  "course_id",   limit: 255,                null: false
+    t.string  "name",        limit: 255
+    t.string  "slug",        limit: 255
+    t.string  "course_site", limit: 255
+    t.string  "instructors", limit: 255000
+    t.string  "partners",    limit: 255000
+    t.string  "homepage",    limit: 255000
+    t.integer "counter",                    default: 0, null: false
   end
 
 
