@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161104092706) do
+ActiveRecord::Schema.define(version: 20161108124927) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20161104092706) do
     t.string "name",        limit: 255
     t.string "slug",        limit: 255
     t.string "course_site", limit: 255
+    t.string "instructors", limit: 255
   end
 
   create_table "catalogs", id: :string, limit: 255, force: :cascade do |t|
@@ -62,6 +63,11 @@ ActiveRecord::Schema.define(version: 20161104092706) do
   create_table "signups", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "user_recent_search", force: :cascade do |t|
+    t.integer "user_id",      null: false
+    t.string  "search_field", null: false
   end
 
   create_table "usermails", force: :cascade do |t|

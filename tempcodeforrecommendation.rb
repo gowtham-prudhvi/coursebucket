@@ -8,21 +8,21 @@ create_table "user_recent_search", force: :cascade do |t|
   end
 #when searched in home search
 curr_search_field=params[:tags]
-@result=execute_statement("select search_field from catalog order by updated_at")
-num_rows=
-if num_rows<10 
+#@result=execute_statement("select search_field from catalog order by updated_at limit 10")
+	id=user_id
 	execute_statement("insert into user_recent_search(user_id,search_field) values(#{id},#{curr_search_field})")
-else
 	#update field of update last one
-end
+	#we will leave this for now will store all searches of user
 #recommendation
 id=getUserid()
- @result=execute_statement("select search_field from user_recent_search where user_id=#{id}")
+ @result=execute_statement("select search_field from user_recent_search where user_id=#{id} ORDER BY DESC LIMIT 10")
+ byebug
 @product =Catalog.search do
       any do
       @result.each do |product|
       fulltext(product["search_field"])
       end
+       order_by(:score, :desc)
       paginate(:page => params[:page] || 1, :per_page => 10)
     end
 
