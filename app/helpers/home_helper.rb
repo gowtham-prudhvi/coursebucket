@@ -48,7 +48,7 @@ module HomeHelper
 			  	puts "----homepage=<#{homepage}>---"
 			  	puts "photo*************=#{url_photo}"
 			  	puts "hiaaaaaaaaaaaaa#{summary}"
-			  	connection.addUser(course_id, name, slug, course_site, instructors, partners, homepage, 0, url_photo)
+			  	connection.addUser(course_id, name, slug, course_site, instructors, partners, homepage, 0, url_photo, summary)
 		  	end
 
 		  	i += 25

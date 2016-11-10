@@ -5,7 +5,7 @@
     <style>
     	/* Popup container */
     	.popup {
-    	    position: relative;
+    	    position: fixed;
     	    display: inline-block;
     	    cursor: pointer;
     	}
@@ -29,7 +29,7 @@
     	/* Popup arrow */
     	.popup .popuptext::after {
     	    content: "";
-    	    position: absolute;
+    	    position: relative;
     	    bottom: 100%;
     	    left: 50%;
     	    margin-left: -5px;
@@ -72,7 +72,7 @@
 	<% @product.each do |product| %>
 	  <h4><%= link_to product.name, "course_details?url=#{product.homepage}&id=#{product.id}&counter=#{product.counter}}" %> by <%= product.instructors %> in <%= product.course_site %>
 	  	<div class="popup" onclick="myFunction()">Description
-	  		<span class="popuptext" id="myPopup">hello</span>
+	  		<span class="popuptext" id='myPopup'><%= product.summary %></span>
 	  	</div>
 	  </h4>
 	<% end %>
