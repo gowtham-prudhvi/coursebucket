@@ -2,7 +2,7 @@ require 'net/http'
 require 'json'
 
 module HomeHelper
-	MOOCS = Array.[]("udacity")
+	MOOCS = Array.[]("udacity","coursera")
 
 	COURSERA = "coursera"
 	UDACITY = "udacity"
@@ -111,12 +111,11 @@ module HomeHelper
   
     ##################  Breif Summary
     def self.get_summary(site, id=0, course={})
-    	summary = ""
+    	summary = "Null"
     	if site == UDACITY
     		if course.key?("short_summary")
     			summary = course["short_summary"]
     		end
-
     	elsif site == COURSERA
     		details_url = COURSERA_COURSE_DETAILS_URL % [id]
 			uri = URI(details_url)
@@ -134,7 +133,7 @@ module HomeHelper
 
    ################### Photo URl 
 	def self.get_photo(site, id=0, course={})
-		photo_url=""
+		photo_url="Null"
 		if site == UDACITY
 			if course.key?("image")
 				photo_url = course["image"]
@@ -154,8 +153,8 @@ module HomeHelper
 	end	
 
 	def self.get_details(site, id=0, course={})
-		partners = "None"
-		course_url=""
+		partners = "Null"
+		course_url="Null"
 		if site== UDACITY
 			################ Course URL udacity
 			if course.key?("homepage")
@@ -165,7 +164,7 @@ module HomeHelper
 			partners_array = course["affiliates"]
 			num = partners_array.length
 			if num == 0 
-				partners = "None"
+				partners = "Null"
 			else
 				temp = 0
 				if !(partners_array[temp].nil?) and partners_array[temp].key?("name")
@@ -194,7 +193,7 @@ module HomeHelper
 		  		partners_array = details["partners.v1"]
 		  		num = partners_array.length
 		  		if num == 0
-		  			partners = "None"
+		  			partners = "Null"
 		  		else
 		  			temp = 0
 		  			if !(partners_array[temp].nil?) and partners_array[temp].key?("name")
@@ -208,7 +207,7 @@ module HomeHelper
 		  			end
 		  		end 
 		  	else
-		  		partners = "None"
+		  		partners = "Null"
 		  	end
 		end	
 
@@ -216,7 +215,7 @@ module HomeHelper
 	end	
 
 	def self.get_instructors(site, id=0, course={})
-		instructors = "None"
+		instructors = "Null"
 		if site == COURSERA
 			details_url = COURSERA_COURSE_DETAILS_URL % [id]
 			uri = URI(details_url)
@@ -229,7 +228,7 @@ module HomeHelper
 		  		puts instructors_array
 		  		num = instructors_array.length
 		  		if num == 0
-		  			instructors = "None"
+		  			instructors = "Null"
 		  		else
 		  			temp = 0
 		  			if !(instructors_array[temp].nil?) and instructors_array[temp].key?("fullName")
@@ -243,13 +242,13 @@ module HomeHelper
 		  			end
 		  		end 
 		  	else
-		  		instructors = "None"
+		  		instructors = "Null"
 		  	end
 		elsif site == UDACITY
 			instructors_array = course["instructors"]
 			num = instructors_array.length
 			if num == 0
-				instructors = "None"
+				instructors = "Null"
 			else
 				temp = 0
 				if !(instructors_array[temp].nil?) and instructors_array[temp].key?('name')

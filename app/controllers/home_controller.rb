@@ -89,11 +89,12 @@ class HomeController < ApplicationController
     @chart_values = @chart_values+']'
     end
 	end
-  
+
   def catalog
     priority = params[:priority]
-    if !(priority == "counter DESC" or priority == "instructors" or priority == "organization") 
-      priority = "name"
+    if priority.nil?
+      puts priority 
+      priority = "name ASC"
     end
     @product = Catalog.order(priority).page(params[:page]).per(10)
   end
