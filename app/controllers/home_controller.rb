@@ -29,10 +29,8 @@ class HomeController < ApplicationController
     # byebug
     # execute_statement("insert into user_recent_search(user_id,search_field) values(#{id},'#{curr_search_field}')")
     @product =Catalog.search do
-      any do
       fulltext(params[:tags])
-      end
-      order_by(:score, :asc)
+      # order_by(:score, :asc)
       paginate(:page => params[:page] || 1, :per_page => 10)
     end
 
@@ -91,7 +89,7 @@ class HomeController < ApplicationController
 	end
   
   def catalog
-   @product = Catalog.order("counter DESC").page(params[:page]).per(10)
+   @product = Catalog.order("name").page(params[:page]).per(10)
   end
 
   def course_details

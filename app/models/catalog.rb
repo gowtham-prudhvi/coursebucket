@@ -1,6 +1,6 @@
 class Catalog < ApplicationRecord
 	self.table_name = "catalog"
 	searchable do
-    text :name,:instructors,:partners
+    text :name,:summary,:instructors
   	end
 end
