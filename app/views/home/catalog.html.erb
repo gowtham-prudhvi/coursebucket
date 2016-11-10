@@ -28,7 +28,7 @@
     	/* The actual popup (appears on top) */
     	.popup .popuptext {
     	    visibility: hidden;
-    	    width: 960px;
+    	    width: 660px;
     	    background-color: #555;
     	    color: #fff;
     	    text-align: left;
@@ -84,7 +84,7 @@
 
 <body>
 	<div class="sup" style="width:100%;">
-	<div class="sup" style=" color: darkblue; font-size:300%;border-style:solid;border-color:white black white white;padding-bottom: 7000px;padding-right: 30px; ">
+	<div class="sup" style=" color: darkblue; font-size:150%;border-style:solid;border-color:white black white white;padding-bottom: 7000px;padding-right: 30px; ">
 	<h1>CATALOG</h1>
 	</div>
 	<div class="sup" type="button" style="margin-top:180px;margin-bottom: 20px;">
@@ -95,10 +95,10 @@
         </div>
     </div>
     </div>
-        <div class="row" style="margin-bottom: 100px; margin-left:500px; padding-bottom: 60px;padding-left: 30px;padding-top: 20px; border-style: solid; border-color:silver; ">
+        <div class="row" style="margin-bottom: 100px; margin-left:240px; padding-bottom: 60px;padding-left: 30px;padding-top: 20px;">
     <% @product.each do |product| %>
 
-    <div class="row" style="margin-bottom: 10px; margin-left:5px;margin-right: 30px; padding-bottom: 60px;padding-left: 30px;padding-top: 20px; border-style: solid; border-color:silver; ">
+    <div class="row" style=" margin-left:5px;margin-right: 30px; padding-bottom: 20px;padding-left: 30px;padding-top: 20px;  ">
             <!-- <div  class="col-sm-9"> -->
           <img src="<%=product.url_photo%>" style="float:left;width:200px;height:140px;margin-right:10px;">
                 <h1><%= link_to product.name, "course_details?url=#{product.homepage}&id=#{product.id}&counter=#{product.counter}" %></h1>
@@ -112,13 +112,13 @@
           <br>
           </div>
     <% end %>
+    	<br>
+    	</hr>
 		<%= paginate @product %>
 		<%= page_entries_info @product %>
-    
         </div>
-    </hr>
-    <div class="sup" style="padding-left: 200px;" align="left">
+   <!--  <div class="sup" style="padding-left: 200px;" align="left">
 	
-	</div>
+	</div -->>
 </body>
 
