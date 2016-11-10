@@ -91,7 +91,11 @@ class HomeController < ApplicationController
 	end
   
   def catalog
-   @product = Catalog.order("name").page(params[:page]).per(10)
+    priority = params[:priority]
+    if !(priority == "counter DESC" or priority == "instructors" or priority == "organization") 
+      priority = "name"
+    end
+    @product = Catalog.order(priority).page(params[:page]).per(10)
   end
 
   def course_details
