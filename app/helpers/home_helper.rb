@@ -16,7 +16,7 @@ module HomeHelper
 	    nxt = 1
 	    while nxt > 0 do
 	    	course_url = get_url(course_site, i)
-	    	puts "i=#{i}"
+	    	# puts "i=#{i}"
 	    	puts "#{course_url}"
 		  	course_uri = URI(course_url)
 		  	course_response = Net::HTTP.get(course_uri)
@@ -43,11 +43,11 @@ module HomeHelper
 			  		url_photo = get_photo(UDACITY, 0, course)
 			  		summary = get_summary(UDACITY, 0, course)
 			  	end
-			  	puts "------instructors=<#{instructors}>-----"
-			  	puts "------partners=<#{partners}>---"
-			  	puts "----homepage=<#{homepage}>---"
-			  	puts "photo*************=#{url_photo}"
-			  	puts "hiaaaaaaaaaaaaa#{summary}"
+			  	# puts "------instructors=<#{instructors}>-----"
+			  	# puts "------partners=<#{partners}>---"
+			  	# puts "----homepage=<#{homepage}>---"
+			  	# puts "photo*************=#{url_photo}"
+			  	# puts "hiaaaaaaaaaaaaa#{summary}"
 			  	connection.addUser(course_id, name, slug, course_site, instructors, partners, homepage, 0, url_photo, summary)
 		  	end
 
