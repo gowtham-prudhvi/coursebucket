@@ -49,7 +49,7 @@ class HomeController < ApplicationController
 
     else
       id=current_deviseuser["id"]   
-      @result=UserRecentSearch.select(:search_field).where(UserRecentSearch.arel_table[:user_id].eq(id)).order(:user_id).reverse_order.limit(5)
+      @result=UserRecentSearch.select(:search_field).where(UserRecentSearch.arel_table[:user_id].eq(id)).order(:id).reverse_order.limit(5)
       # byebug
 
       first=@result[0]["search_field"]
@@ -69,7 +69,7 @@ class HomeController < ApplicationController
        order_by(:score, :desc)
      end
      @recommend=@recommend.results
-      # byebug
+     # byebug
     #   @product =Catalog.search do
     #   keywords('asaasss')
     #   paginate(:page => params[:page] || 1, :per_page => 10)
