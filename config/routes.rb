@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'home/course_info'
+
   get 'home/course_details'
 
   devise_for :deviseusers

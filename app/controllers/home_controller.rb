@@ -92,7 +92,7 @@ class HomeController < ApplicationController
   
   def catalog
     priority = params[:priority]
-    if !(priority == "counter DESC" or priority == "instructors" or priority == "organization") 
+    if !(priority == "counter DESC" or priority == "instructors" or priority == "course_site") 
       priority = "name"
     end
     @product = Catalog.order(priority).page(params[:page]).per(10)
@@ -108,6 +108,11 @@ class HomeController < ApplicationController
    course.update(counter: @counter)
 
    redirect_to @url
+  end
+
+  def course_info
+    id=params[:id]
+    @product=Catalog.where(Catalog.arel_table[:id].eq(id)).limit(1)
   end
   
   def catalog_update
