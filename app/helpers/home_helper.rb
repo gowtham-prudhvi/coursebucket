@@ -29,21 +29,25 @@ module HomeHelper
 			  	name = get_name(course)
 			  	slug = get_slug(course)
 
+
 			  	if course_site == COURSERA
 			  		# Coursera - get course details here
 			  		instructors = get_instructors(COURSERA, course_id)
 			  		partners,homepage = get_details(COURSERA, course_id)
 			  		url_photo = get_photo(COURSERA, course_id)
+			  		summary = get_summary(COURSERA, course_id)
 			  	elsif course_site == UDACITY
 			  		# Udacity - course details
 			  		instructors = get_instructors(UDACITY,0,course)
 			  		partners,homepage = get_details(UDACITY, 0, course)
 			  		url_photo = get_photo(UDACITY, 0, course)
+			  		summary = get_summary(UDACITY, 0, course)
 			  	end
 			  	puts "------instructors=<#{instructors}>-----"
 			  	puts "------partners=<#{partners}>---"
 			  	puts "----homepage=<#{homepage}>---"
 			  	puts "photo*************=#{url_photo}"
+			  	puts "hiaaaaaaaaaaaaa#{summary}"
 			  	connection.addUser(course_id, name, slug, course_site, instructors, partners, homepage, 0, url_photo)
 		  	end
 
@@ -120,7 +124,6 @@ module HomeHelper
 		  	json = JSON.parse(response)
 		  	details = json["elements"] 
     		if json["elements"][0].key?("description")
-				puts json["elements"][0]["description"]
 				summary= json['elements'][0]['description']
 			end				
 		end
