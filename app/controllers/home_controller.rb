@@ -49,7 +49,9 @@ class HomeController < ApplicationController
 
     else
       id=current_deviseuser["id"]   
-      @result=execute_statement("select search_field from user_recent_search where user_id=#{id} ORDER BY id DESC LIMIT 5")
+      @result=UserRecentSearch.select(:search_field).where(UserRecentSearch.arel_table[:user_id].eq(id)).order(:user_id).reverse_order.limit(5)
+      # byebug
+
       first=@result[0]["search_field"]
       second=@result[1]["search_field"]
       third=@result[2]["search_field"]
@@ -97,8 +99,9 @@ class HomeController < ApplicationController
    @id = params[:id]
    @counter = params[:counter].to_i
    @counter+=1
-   execute_statement("update catalog  set counter=#{@counter} where id=#{@id}")
-
+   # execute_statement("update catalog  set counter=#{@counter} where id=#{@id}")
+   course = Catalog.find_by(id: @id)
+   course.update(counter: @counter)
 
    redirect_to @url
   end
