@@ -49,7 +49,7 @@ class HomeController < ApplicationController
 
     else
       id=current_deviseuser["id"]   
-      @result=UserRecentSearch.select(:search_field).where(UserRecentSearch.arel_table[:user_id].eq(id)).order(:user_id).reverse_order.limit(5)
+      @result=UserRecentSearch.select(:search_field).where(UserRecentSearch.arel_table[:user_id].eq(id)).order(:id).reverse_order.limit(5)
       # byebug
 
       first=@result[0]["search_field"]
@@ -69,7 +69,7 @@ class HomeController < ApplicationController
        order_by(:score, :desc)
      end
      @recommend=@recommend.results
-      # byebug
+     # byebug
     #   @product =Catalog.search do
     #   keywords('asaasss')
     #   paginate(:page => params[:page] || 1, :per_page => 10)
@@ -93,7 +93,6 @@ class HomeController < ApplicationController
   def catalog
     priority = params[:priority]
     if priority.nil?
-      puts priority 
       priority = "name ASC"
     end
     @product = Catalog.order(priority).page(params[:page]).per(10)
@@ -109,6 +108,11 @@ class HomeController < ApplicationController
    course.update(counter: @counter)
 
    redirect_to @url
+  end
+
+  def course_info
+    id=params[:id]
+    @product=Catalog.where(Catalog.arel_table[:id].eq(id)).limit(1)
   end
   
   def catalog_update

@@ -162,7 +162,7 @@ a {
  <% if !params[:tags] %>
 <h2> Recommended courses </h2>
   <% @recommend.each do |product| %>
-    <h4><%= product.name %></h4>
+    <h4><%= link_to product.name, "/home/course_info?id=#{product.id}" %> in <%= product.course_site %></h4>
     
    <% end %>
 <% end %>
@@ -173,7 +173,7 @@ a {
 <% if params[:tags] %>
 <h1> results  for <%= params[:tags] =%></h1>
   <% @product.each do |product| %>
-    <h4><%= link_to product.name, "/home/course_details?id=#{product.course_id}&site=#{product.course_site}" %> in <%= product.course_site %></h4>
+    <h4><%= link_to product.name, "/home/course_info?id=#{product.id}" %> in <%= product.course_site %></h4>
     
    <% end %>
 
