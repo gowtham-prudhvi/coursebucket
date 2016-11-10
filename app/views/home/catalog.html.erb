@@ -2,10 +2,20 @@
 <html>
 <head>
     <title>Catalog</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+      <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+      <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+      <link rel="stylesheet" href="/resources/demos/style.css">
     <style>
     	/* Popup container */
     	.popup {
-    	    position: fixed;
+    	    position: absolute;
+    	    display: inline-block;
+    	    cursor: pointer;
+    	}
+
+    	.sup {
+    		position: fixed;
     	    display: inline-block;
     	    cursor: pointer;
     	}
@@ -13,29 +23,31 @@
     	/* The actual popup (appears on top) */
     	.popup .popuptext {
     	    visibility: hidden;
-    	    width: 360px;
+    	    width: 960px;
     	    background-color: #555;
     	    color: #fff;
-    	    text-align: center;
+    	    text-align: left;
     	    border-radius: 6px;
-    	    padding: 8px 0;
+    	    padding: 8px 10px;
     	    position: absolute;
     	    z-index: 1;
     	    top: 125%;
     	    left: 50%;
-    	    margin-left: -80px;
+    	    margin-left: -34px;
+
     	}
 
     	/* Popup arrow */
     	.popup .popuptext::after {
     	    content: "";
-    	    position: relative;
+    	    position: absolute;
     	    bottom: 100%;
     	    left: 50%;
     	    margin-left: -5px;
     	    border-width: 5px;
     	    border-style: solid;
     	    border-color: #555 transparent transparent transparent;
+
     	}
 
     	/* Toggle this class when clicking on the popup container (hide and show the popup) */
@@ -66,18 +78,38 @@
 </head>
 
 <body>
+	<div class="sup" style="width:100%;">
+	<div class="sup" style=" color: darkblue; font-size:300%;border-style:solid;border-color:white black white white;padding-bottom: 7000px;padding-right: 30px; ">
 	<h1>CATALOG</h1>
-
-	<button type="button"><a href="/home/search">SEARCH</a></button>
+	</div>
+	<div class="sup" type="button" style="margin-top:180px;margin-bottom: 20px;">
+		<div>
+		<button style="margin-bottom: 600px;width:150px; height:35px;"><a href="/home/search">SEARCH</a></button>
+		</div>
+		<div>
+		<%= paginate @product %>
+		<%= page_entries_info @product %>
+		</div>
+	</div>
+	</div>
 	<% @product.each do |product| %>
-	  <h4><%= link_to product.name, "course_details?url=#{product.homepage}&id=#{product.id}&counter=#{product.counter}" %> by <%= product.instructors %> in <%= product.course_site %>
-	  	<div class="popup" onclick="myFunction(<%= product.id %>)"> <button type="button">Description</button>
-	  		<span class="popuptext" id=<%= product.id %>><%= product.summary %></span>
-	  	</div>
-	  </h4>
+		<div class="row" style="margin-bottom: 100px; margin-left:500px; padding-bottom: 60px;padding-left: 30px;padding-top: 20px; border-style: solid; border-color:silver; ">
+		  	<!-- <div  class="col-sm-9"> -->
+		  <img src="<%=product.url_photo%>" style="float:left;width:200px;height:140px;margin-right:10px;">
+		  		<h1><%= link_to product.name, "course_details?url=#{product.homepage}&id=#{product.id}&counter=#{product.counter}" %></h1>
+		  	<!-- </div> -->
+	  		<div  style="margin-bottom: 30px; margin-left: 30px">
+	  			 <h3>by <%= product.instructors %>, <%= product.course_site %></h3>
+		  		<div class="popup" onclick="myFunction(<%= product.id %>)" style="margin-left: 0px;"> Description
+		  				<span class="popuptext" id=<%= product.id %>><%= product.summary %></span>
+		  		</div>
+	  		</div>
+		  <br>
+		</div>
 	<% end %>
-	<hr />
-	<%= paginate @product %>
-	<%= page_entries_info @product %>
+	
+	<div class="sup" style="padding-left: 200px;" align="left">
+	
+	</div>
 </body>
 
