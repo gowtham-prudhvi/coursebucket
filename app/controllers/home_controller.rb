@@ -32,7 +32,7 @@ class HomeController < ApplicationController
       any do
       fulltext(params[:tags])
       end
-      order_by(:score, :desc)
+      order_by(:score, :asc)
       paginate(:page => params[:page] || 1, :per_page => 10)
     end
 
