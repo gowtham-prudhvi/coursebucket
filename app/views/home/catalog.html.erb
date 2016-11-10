@@ -87,28 +87,28 @@
 		<button style="margin-bottom: 600px;width:150px; height:35px;"><a href="/home/search">SEARCH</a></button>
 		</div>
 		<div>
+        </div>
+    </div>
+    </div>
+    <% @product.each do |product| %>
+        <div class="row" style="margin-bottom: 100px; margin-left:500px; padding-bottom: 60px;padding-left: 30px;padding-top: 20px; border-style: solid; border-color:silver; ">
+            <!-- <div  class="col-sm-9"> -->
+          <img src="<%=product.url_photo%>" style="float:left;width:200px;height:140px;margin-right:10px;">
+                <h1><%= link_to product.name, "course_details?url=#{product.homepage}&id=#{product.id}&counter=#{product.counter}" %></h1>
+            <!-- </div> -->
+            <div  style="margin-bottom: 30px; margin-left: 30px">
+                 <h3>by <%= product.instructors %>, <%= product.course_site %></h3>
+                <div class="popup" onclick="myFunction(<%= product.id %>)" style="margin-left: 0px;"> Description
+                        <span class="popuptext" id=<%= product.id %>><%= product.summary %></span>
+                </div>
+            </div>
+          <br>
+        </div>
+    <% end %>
 		<%= paginate @product %>
 		<%= page_entries_info @product %>
-		</div>
-	</div>
-	</div>
-	<% @product.each do |product| %>
-		<div class="row" style="margin-bottom: 100px; margin-left:500px; padding-bottom: 60px;padding-left: 30px;padding-top: 20px; border-style: solid; border-color:silver; ">
-		  	<!-- <div  class="col-sm-9"> -->
-		  <img src="<%=product.url_photo%>" style="float:left;width:200px;height:140px;margin-right:10px;">
-		  		<h1><%= link_to product.name, "course_details?url=#{product.homepage}&id=#{product.id}&counter=#{product.counter}" %></h1>
-		  	<!-- </div> -->
-	  		<div  style="margin-bottom: 30px; margin-left: 30px">
-	  			 <h3>by <%= product.instructors %>, <%= product.course_site %></h3>
-		  		<div class="popup" onclick="myFunction(<%= product.id %>)" style="margin-left: 0px;"> Description
-		  				<span class="popuptext" id=<%= product.id %>><%= product.summary %></span>
-		  		</div>
-	  		</div>
-		  <br>
-		</div>
-	<% end %>
-	
-	<div class="sup" style="padding-left: 200px;" align="left">
+    
+    <div class="sup" style="padding-left: 200px;" align="left">
 	
 	</div>
 </body>
