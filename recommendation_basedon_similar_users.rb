@@ -6,7 +6,7 @@ create_table "user_courses", force: :cascade do |t|
   end
 
 # reference http://www.thecodeknight.com/post_categories/search/posts/recommendations_with_solr
-  class Song < ActiveRecord::Base
+  class Catalog < ActiveRecord::Base
   searchable do
     integer :played_for, using: :user_tastes, multiple: true
   end
